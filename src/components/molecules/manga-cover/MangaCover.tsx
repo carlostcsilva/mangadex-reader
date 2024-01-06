@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, Text, View } from "react-native";
+import { View } from "react-native";
 import { styles } from "./MangaCover.style";
 import FastImage from "react-native-fast-image";
 import Title from "../../atoms/Title/Title";

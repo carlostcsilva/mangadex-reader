@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, FlatList, Text, View } from "react-native";
+import { Dimensions, FlatList } from "react-native";
 import { styles } from "./MangaScroller.style";
 import { MangaListDisplay } from "../../types/FormattedMangaType";
 import MangaCover from "../../molecules/manga-cover/MangaCover";
