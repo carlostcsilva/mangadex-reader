@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * MangaDex API
- * MangaDex is an ad-free manga reader offering high-quality images!  This document details our API as it is right now. It is in no way a promise to never change it, although we will endeavour to publicly notify any major change.  # Acceptable use policy  Usage of our services implies acceptance of the following: - You **MUST** credit us - You **MUST** credit scanlation groups if you offer the ability to read chapters - You **CANNOT** run ads or paid services on your website and/or apps  These may change at any time for any and no reason and it is up to you check for updates from time to time.  # Security issues  If you believe you found a security issue in our API, please check our [security.txt](/security.txt) to get in touch privately. 
+ * MangaDex is an ad-free manga reader offering high-quality images!  This document details our API as it is right now. It is in no way a promise to never change it, although we will endeavour to publicly notify any major change.  # Acceptable use policy  Usage of our services implies acceptance of the following: - You **MUST** credit us - You **MUST** credit scanlation groups if you offer the ability to read chapters - You **CANNOT** run ads or paid services on your website and/or apps  These may change at any time for any and no reason and it is up to you check for updates from time to time.  # Security issues  If you believe you found a security issue in our API, please check our [security.txt](/security.txt) to get in touch privately.
  *
  * OpenAPI spec version: 5.10.0
  * Contact: support@mangadex.org
@@ -12,2003 +12,3209 @@
  * Do not edit the class manually.
  */
 
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Configuration } from '../configuration';
+import globalAxios, {
+  AxiosResponse,
+  AxiosInstance,
+  AxiosRequestConfig,
+} from "axios";
+import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { ChapterList } from '../models';
-import { ErrorResponse } from '../models';
-import { IdCommitBody } from '../models';
-import { InlineResponse200 } from '../models';
-import { InlineResponse2008 } from '../models';
-import { InlineResponse2009 } from '../models';
-import { MangaCreate } from '../models';
-import { MangaIdBody } from '../models';
-import { MangaList } from '../models';
-import { MangaRelationCreate } from '../models';
-import { MangaRelationList } from '../models';
-import { MangaRelationResponse } from '../models';
-import { MangaResponse } from '../models';
-import { ReferenceExpansionChapter } from '../models';
-import { ReferenceExpansionManga } from '../models';
-import { ReferenceExpansionMangaRelation } from '../models';
-import { Response } from '../models';
-import { TagResponse } from '../models';
-import { UpdateMangaStatus } from '../models';
-import { Year } from '../models';
+import {
+  BASE_PATH,
+  COLLECTION_FORMATS,
+  RequestArgs,
+  BaseAPI,
+  RequiredError,
+} from "../base";
+import { ChapterList } from "../models";
+import { ErrorResponse } from "../models";
+import { IdCommitBody } from "../models";
+import { InlineResponse200 } from "../models";
+import { InlineResponse2008 } from "../models";
+import { InlineResponse2009 } from "../models";
+import { MangaCreate } from "../models";
+import { MangaIdBody } from "../models";
+import { MangaList } from "../models";
+import { MangaRelationCreate } from "../models";
+import { MangaRelationList } from "../models";
+import { MangaRelationResponse } from "../models";
+import { MangaResponse } from "../models";
+import { ReferenceExpansionChapter } from "../models";
+import { ReferenceExpansionManga } from "../models";
+import { ReferenceExpansionMangaRelation } from "../models";
+import { Response } from "../models";
+import { TagResponse } from "../models";
+import { UpdateMangaStatus } from "../models";
+import { Year } from "../models";
 /**
  * MangaApi - axios parameter creator
  * @export
  */
-export const MangaApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Submit a Manga Draft
-         * @param {string} id 
-         * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        commitMangaDraft: async (id: string, body?: IdCommitBody, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling commitMangaDraft.');
-            }
-            const localVarPath = `/manga/draft/{id}/commit`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Delete Manga
-         * @param {string} id Manga ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteMangaId: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteMangaId.');
-            }
-            const localVarPath = `/manga/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Unfollow Manga
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteMangaIdFollow: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteMangaIdFollow.');
-            }
-            const localVarPath = `/manga/{id}/follow`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Delete Manga relation
-         * @param {string} mangaId 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteMangaRelationId: async (mangaId: string, id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'mangaId' is not null or undefined
-            if (mangaId === null || mangaId === undefined) {
-                throw new RequiredError('mangaId','Required parameter mangaId was null or undefined when calling deleteMangaRelationId.');
-            }
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteMangaRelationId.');
-            }
-            const localVarPath = `/manga/{mangaId}/relation/{id}`
-                .replace(`{${"mangaId"}}`, encodeURIComponent(String(mangaId)))
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get Manga volumes & chapters
-         * @param {string} id Manga ID
-         * @param {Array<string>} [translatedLanguage] 
-         * @param {Array<string>} [groups] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaAggregate: async (id: string, translatedLanguage?: Array<string>, groups?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getMangaAggregate.');
-            }
-            const localVarPath = `/manga/{id}/aggregate`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (translatedLanguage) {
-                localVarQueryParameter['translatedLanguage[]'] = translatedLanguage;
-            }
-
-            if (groups) {
-                localVarQueryParameter['groups[]'] = groups;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a list of Manga Drafts
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {string} [state] 
-         * @param {string} [orderTitle] 
-         * @param {string} [orderYear] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaDrafts: async (limit?: number, offset?: number, state?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, includes?: ReferenceExpansionManga, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/manga/draft`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-            if (state !== undefined) {
-                localVarQueryParameter['state'] = state;
-            }
-
-            if (orderTitle !== undefined) {
-                localVarQueryParameter['order[title]'] = orderTitle;
-            }
-
-            if (orderYear !== undefined) {
-                localVarQueryParameter['order[year]'] = orderYear;
-            }
-
-            if (orderCreatedAt !== undefined) {
-                localVarQueryParameter['order[createdAt]'] = orderCreatedAt;
-            }
-
-            if (orderUpdatedAt !== undefined) {
-                localVarQueryParameter['order[updatedAt]'] = orderUpdatedAt;
-            }
-
-            if (includes !== undefined) {
-                localVarQueryParameter['includes[]'] = includes;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get Manga.
-         * @summary Get Manga
-         * @param {string} id Manga ID
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaId: async (id: string, includes?: ReferenceExpansionManga, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getMangaId.');
-            }
-            const localVarPath = `/manga/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (includes !== undefined) {
-                localVarQueryParameter['includes[]'] = includes;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a specific Manga Draft
-         * @param {string} id 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaIdDraft: async (id: string, includes?: ReferenceExpansionManga, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getMangaIdDraft.');
-            }
-            const localVarPath = `/manga/draft/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            if (includes !== undefined) {
-                localVarQueryParameter['includes[]'] = includes;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Manga feed
-         * @param {string} id Manga ID
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {Array<string>} [translatedLanguage] 
-         * @param {Array<string>} [originalLanguage] 
-         * @param {Array<string>} [excludedOriginalLanguage] 
-         * @param {Array<string>} [contentRating] 
-         * @param {Array<string>} [excludedGroups] 
-         * @param {Array<string>} [excludedUploaders] 
-         * @param {string} [includeFutureUpdates] 
-         * @param {string} [createdAtSince] 
-         * @param {string} [updatedAtSince] 
-         * @param {string} [publishAtSince] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {string} [orderPublishAt] 
-         * @param {string} [orderReadableAt] 
-         * @param {string} [orderVolume] 
-         * @param {string} [orderChapter] 
-         * @param {ReferenceExpansionChapter} [includes] 
-         * @param {number} [includeEmptyPages] 
-         * @param {number} [includeFuturePublishAt] 
-         * @param {number} [includeExternalUrl] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaIdFeed: async (id: string, limit?: number, offset?: number, translatedLanguage?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, contentRating?: Array<string>, excludedGroups?: Array<string>, excludedUploaders?: Array<string>, includeFutureUpdates?: string, createdAtSince?: string, updatedAtSince?: string, publishAtSince?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderPublishAt?: string, orderReadableAt?: string, orderVolume?: string, orderChapter?: string, includes?: ReferenceExpansionChapter, includeEmptyPages?: number, includeFuturePublishAt?: number, includeExternalUrl?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getMangaIdFeed.');
-            }
-            const localVarPath = `/manga/{id}/feed`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-            if (translatedLanguage) {
-                localVarQueryParameter['translatedLanguage[]'] = translatedLanguage;
-            }
-
-            if (originalLanguage) {
-                localVarQueryParameter['originalLanguage[]'] = originalLanguage;
-            }
-
-            if (excludedOriginalLanguage) {
-                localVarQueryParameter['excludedOriginalLanguage[]'] = excludedOriginalLanguage;
-            }
-
-            if (contentRating) {
-                localVarQueryParameter['contentRating[]'] = contentRating;
-            }
-
-            if (excludedGroups) {
-                localVarQueryParameter['excludedGroups[]'] = excludedGroups;
-            }
-
-            if (excludedUploaders) {
-                localVarQueryParameter['excludedUploaders[]'] = excludedUploaders;
-            }
-
-            if (includeFutureUpdates !== undefined) {
-                localVarQueryParameter['includeFutureUpdates'] = includeFutureUpdates;
-            }
-
-            if (createdAtSince !== undefined) {
-                localVarQueryParameter['createdAtSince'] = createdAtSince;
-            }
-
-            if (updatedAtSince !== undefined) {
-                localVarQueryParameter['updatedAtSince'] = updatedAtSince;
-            }
-
-            if (publishAtSince !== undefined) {
-                localVarQueryParameter['publishAtSince'] = publishAtSince;
-            }
-
-            if (orderCreatedAt !== undefined) {
-                localVarQueryParameter['order[createdAt]'] = orderCreatedAt;
-            }
-
-            if (orderUpdatedAt !== undefined) {
-                localVarQueryParameter['order[updatedAt]'] = orderUpdatedAt;
-            }
-
-            if (orderPublishAt !== undefined) {
-                localVarQueryParameter['order[publishAt]'] = orderPublishAt;
-            }
-
-            if (orderReadableAt !== undefined) {
-                localVarQueryParameter['order[readableAt]'] = orderReadableAt;
-            }
-
-            if (orderVolume !== undefined) {
-                localVarQueryParameter['order[volume]'] = orderVolume;
-            }
-
-            if (orderChapter !== undefined) {
-                localVarQueryParameter['order[chapter]'] = orderChapter;
-            }
-
-            if (includes !== undefined) {
-                localVarQueryParameter['includes[]'] = includes;
-            }
-
-            if (includeEmptyPages !== undefined) {
-                localVarQueryParameter['includeEmptyPages'] = includeEmptyPages;
-            }
-
-            if (includeFuturePublishAt !== undefined) {
-                localVarQueryParameter['includeFuturePublishAt'] = includeFuturePublishAt;
-            }
-
-            if (includeExternalUrl !== undefined) {
-                localVarQueryParameter['includeExternalUrl'] = includeExternalUrl;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a Manga reading status
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaIdStatus: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getMangaIdStatus.');
-            }
-            const localVarPath = `/manga/{id}/status`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get a random Manga
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {Array<string>} [contentRating] 
-         * @param {Array<string>} [includedTags] 
-         * @param {string} [includedTagsMode] 
-         * @param {Array<string>} [excludedTags] 
-         * @param {string} [excludedTagsMode] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaRandom: async (includes?: ReferenceExpansionManga, contentRating?: Array<string>, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/manga/random`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (includes !== undefined) {
-                localVarQueryParameter['includes[]'] = includes;
-            }
-
-            if (contentRating) {
-                localVarQueryParameter['contentRating[]'] = contentRating;
-            }
-
-            if (includedTags) {
-                localVarQueryParameter['includedTags[]'] = includedTags;
-            }
-
-            if (includedTagsMode !== undefined) {
-                localVarQueryParameter['includedTagsMode'] = includedTagsMode;
-            }
-
-            if (excludedTags) {
-                localVarQueryParameter['excludedTags[]'] = excludedTags;
-            }
-
-            if (excludedTagsMode !== undefined) {
-                localVarQueryParameter['excludedTagsMode'] = excludedTagsMode;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Manga relation list
-         * @param {string} mangaId 
-         * @param {ReferenceExpansionMangaRelation} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaRelation: async (mangaId: string, includes?: ReferenceExpansionMangaRelation, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'mangaId' is not null or undefined
-            if (mangaId === null || mangaId === undefined) {
-                throw new RequiredError('mangaId','Required parameter mangaId was null or undefined when calling getMangaRelation.');
-            }
-            const localVarPath = `/manga/{mangaId}/relation`
-                .replace(`{${"mangaId"}}`, encodeURIComponent(String(mangaId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (includes !== undefined) {
-                localVarQueryParameter['includes[]'] = includes;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get all Manga reading status for logged User
-         * @param {string} [status] Used to filter the list by given status
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaStatus: async (status?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/manga/status`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            if (status !== undefined) {
-                localVarQueryParameter['status'] = status;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Tag list
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getMangaTag: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/manga/tag`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Search a list of Manga.
-         * @summary Manga list
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {string} [title] 
-         * @param {string} [authorOrArtist] 
-         * @param {Array<string>} [authors] 
-         * @param {Array<string>} [artists] 
-         * @param {Year} [year] Year of release or none
-         * @param {Array<string>} [includedTags] 
-         * @param {string} [includedTagsMode] 
-         * @param {Array<string>} [excludedTags] 
-         * @param {string} [excludedTagsMode] 
-         * @param {Array<string>} [status] 
-         * @param {Array<string>} [originalLanguage] 
-         * @param {Array<string>} [excludedOriginalLanguage] 
-         * @param {Array<string>} [availableTranslatedLanguage] 
-         * @param {Array<string>} [publicationDemographic] 
-         * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
-         * @param {Array<string>} [contentRating] 
-         * @param {string} [createdAtSince] 
-         * @param {string} [updatedAtSince] 
-         * @param {string} [orderTitle] 
-         * @param {string} [orderYear] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {string} [orderLatestUploadedChapter] 
-         * @param {string} [orderFollowedCount] 
-         * @param {string} [orderRelevance] 
-         * @param {string} [orderRating] 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {string} [hasAvailableChapters] 
-         * @param {string} [group] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getSearchManga: async (limit?: number, offset?: number, title?: string, authorOrArtist?: string, authors?: Array<string>, artists?: Array<string>, year?: Year, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, status?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, availableTranslatedLanguage?: Array<string>, publicationDemographic?: Array<string>, ids?: Array<string>, contentRating?: Array<string>, createdAtSince?: string, updatedAtSince?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderLatestUploadedChapter?: string, orderFollowedCount?: string, orderRelevance?: string, orderRating?: string, includes?: ReferenceExpansionManga, hasAvailableChapters?: string, group?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/manga`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-            if (title !== undefined) {
-                localVarQueryParameter['title'] = title;
-            }
-
-            if (authorOrArtist !== undefined) {
-                localVarQueryParameter['authorOrArtist'] = authorOrArtist;
-            }
-
-            if (authors) {
-                localVarQueryParameter['authors[]'] = authors;
-            }
-
-            if (artists) {
-                localVarQueryParameter['artists[]'] = artists;
-            }
-
-            if (year !== undefined) {
-                localVarQueryParameter['year'] = year;
-            }
-
-            if (includedTags) {
-                localVarQueryParameter['includedTags[]'] = includedTags;
-            }
-
-            if (includedTagsMode !== undefined) {
-                localVarQueryParameter['includedTagsMode'] = includedTagsMode;
-            }
-
-            if (excludedTags) {
-                localVarQueryParameter['excludedTags[]'] = excludedTags;
-            }
-
-            if (excludedTagsMode !== undefined) {
-                localVarQueryParameter['excludedTagsMode'] = excludedTagsMode;
-            }
-
-            if (status) {
-                localVarQueryParameter['status[]'] = status;
-            }
-
-            if (originalLanguage) {
-                localVarQueryParameter['originalLanguage[]'] = originalLanguage;
-            }
-
-            if (excludedOriginalLanguage) {
-                localVarQueryParameter['excludedOriginalLanguage[]'] = excludedOriginalLanguage;
-            }
-
-            if (availableTranslatedLanguage) {
-                localVarQueryParameter['availableTranslatedLanguage[]'] = availableTranslatedLanguage;
-            }
-
-            if (publicationDemographic) {
-                localVarQueryParameter['publicationDemographic[]'] = publicationDemographic;
-            }
-
-            if (ids) {
-                localVarQueryParameter['ids[]'] = ids;
-            }
-
-            if (contentRating) {
-                localVarQueryParameter['contentRating[]'] = contentRating;
-            }
-
-            if (createdAtSince !== undefined) {
-                localVarQueryParameter['createdAtSince'] = createdAtSince;
-            }
-
-            if (updatedAtSince !== undefined) {
-                localVarQueryParameter['updatedAtSince'] = updatedAtSince;
-            }
-
-            if (orderTitle !== undefined) {
-                localVarQueryParameter['order[title]'] = orderTitle;
-            }
-
-            if (orderYear !== undefined) {
-                localVarQueryParameter['order[year]'] = orderYear;
-            }
-
-            if (orderCreatedAt !== undefined) {
-                localVarQueryParameter['order[createdAt]'] = orderCreatedAt;
-            }
-
-            if (orderUpdatedAt !== undefined) {
-                localVarQueryParameter['order[updatedAt]'] = orderUpdatedAt;
-            }
-
-            if (orderLatestUploadedChapter !== undefined) {
-                localVarQueryParameter['order[latestUploadedChapter]'] = orderLatestUploadedChapter;
-            }
-
-            if (orderFollowedCount !== undefined) {
-                localVarQueryParameter['order[followedCount]'] = orderFollowedCount;
-            }
-
-            if (orderRelevance !== undefined) {
-                localVarQueryParameter['order[relevance]'] = orderRelevance;
-            }
-
-            if (orderRating !== undefined) {
-                localVarQueryParameter['order[rating]'] = orderRating;
-            }
-
-            if (includes !== undefined) {
-                localVarQueryParameter['includes[]'] = includes;
-            }
-
-            if (hasAvailableChapters !== undefined) {
-                localVarQueryParameter['hasAvailableChapters'] = hasAvailableChapters;
-            }
-
-            if (group !== undefined) {
-                localVarQueryParameter['group'] = group;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Create a new Manga.
-         * @summary Create Manga
-         * @param {string} contentType 
-         * @param {MangaCreate} [body] The size of the body is limited to 64KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postManga: async (contentType: string, body?: MangaCreate, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'contentType' is not null or undefined
-            if (contentType === null || contentType === undefined) {
-                throw new RequiredError('contentType','Required parameter contentType was null or undefined when calling postManga.');
-            }
-            const localVarPath = `/manga`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            if (contentType !== undefined && contentType !== null) {
-                localVarHeaderParameter['Content-Type'] = String(contentType);
-            }
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Follow Manga
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postMangaIdFollow: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling postMangaIdFollow.');
-            }
-            const localVarPath = `/manga/{id}/follow`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Update Manga reading status
-         * @param {string} contentType 
-         * @param {string} id 
-         * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postMangaIdStatus: async (contentType: string, id: string, body?: UpdateMangaStatus, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'contentType' is not null or undefined
-            if (contentType === null || contentType === undefined) {
-                throw new RequiredError('contentType','Required parameter contentType was null or undefined when calling postMangaIdStatus.');
-            }
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling postMangaIdStatus.');
-            }
-            const localVarPath = `/manga/{id}/status`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            if (contentType !== undefined && contentType !== null) {
-                localVarHeaderParameter['Content-Type'] = String(contentType);
-            }
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Create a new Manga relation.
-         * @summary Create Manga relation
-         * @param {string} contentType 
-         * @param {string} mangaId 
-         * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postMangaRelation: async (contentType: string, mangaId: string, body?: MangaRelationCreate, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'contentType' is not null or undefined
-            if (contentType === null || contentType === undefined) {
-                throw new RequiredError('contentType','Required parameter contentType was null or undefined when calling postMangaRelation.');
-            }
-            // verify required parameter 'mangaId' is not null or undefined
-            if (mangaId === null || mangaId === undefined) {
-                throw new RequiredError('mangaId','Required parameter mangaId was null or undefined when calling postMangaRelation.');
-            }
-            const localVarPath = `/manga/{mangaId}/relation`
-                .replace(`{${"mangaId"}}`, encodeURIComponent(String(mangaId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            if (contentType !== undefined && contentType !== null) {
-                localVarHeaderParameter['Content-Type'] = String(contentType);
-            }
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Update Manga
-         * @param {string} contentType 
-         * @param {string} id Manga ID
-         * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        putMangaId: async (contentType: string, id: string, body?: MangaIdBody, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'contentType' is not null or undefined
-            if (contentType === null || contentType === undefined) {
-                throw new RequiredError('contentType','Required parameter contentType was null or undefined when calling putMangaId.');
-            }
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling putMangaId.');
-            }
-            const localVarPath = `/manga/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            if (contentType !== undefined && contentType !== null) {
-                localVarHeaderParameter['Content-Type'] = String(contentType);
-            }
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-    }
+export const MangaApiAxiosParamCreator = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @summary Submit a Manga Draft
+     * @param {string} id
+     * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    commitMangaDraft: async (
+      id: string,
+      body?: IdCommitBody,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling commitMangaDraft."
+        );
+      }
+      const localVarPath = `/manga/draft/{id}/commit`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Delete Manga
+     * @param {string} id Manga ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteMangaId: async (
+      id: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling deleteMangaId."
+        );
+      }
+      const localVarPath = `/manga/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Unfollow Manga
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteMangaIdFollow: async (
+      id: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling deleteMangaIdFollow."
+        );
+      }
+      const localVarPath = `/manga/{id}/follow`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Delete Manga relation
+     * @param {string} mangaId
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteMangaRelationId: async (
+      mangaId: string,
+      id: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'mangaId' is not null or undefined
+      if (mangaId === null || mangaId === undefined) {
+        throw new RequiredError(
+          "mangaId",
+          "Required parameter mangaId was null or undefined when calling deleteMangaRelationId."
+        );
+      }
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling deleteMangaRelationId."
+        );
+      }
+      const localVarPath = `/manga/{mangaId}/relation/{id}`
+        .replace(`{${"mangaId"}}`, encodeURIComponent(String(mangaId)))
+        .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Get Manga volumes & chapters
+     * @param {string} id Manga ID
+     * @param {Array<string>} [translatedLanguage]
+     * @param {Array<string>} [groups]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaAggregate: async (
+      id: string,
+      translatedLanguage?: Array<string>,
+      groups?: Array<string>,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getMangaAggregate."
+        );
+      }
+      const localVarPath = `/manga/{id}/aggregate`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (translatedLanguage) {
+        localVarQueryParameter["translatedLanguage[]"] = translatedLanguage;
+      }
+
+      if (groups) {
+        localVarQueryParameter["groups[]"] = groups;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Get a list of Manga Drafts
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [state]
+     * @param {string} [orderTitle]
+     * @param {string} [orderYear]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaDrafts: async (
+      limit?: number,
+      offset?: number,
+      state?: string,
+      orderTitle?: string,
+      orderYear?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      includes?: ReferenceExpansionManga,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/manga/draft`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset;
+      }
+
+      if (state !== undefined) {
+        localVarQueryParameter["state"] = state;
+      }
+
+      if (orderTitle !== undefined) {
+        localVarQueryParameter["order[title]"] = orderTitle;
+      }
+
+      if (orderYear !== undefined) {
+        localVarQueryParameter["order[year]"] = orderYear;
+      }
+
+      if (orderCreatedAt !== undefined) {
+        localVarQueryParameter["order[createdAt]"] = orderCreatedAt;
+      }
+
+      if (orderUpdatedAt !== undefined) {
+        localVarQueryParameter["order[updatedAt]"] = orderUpdatedAt;
+      }
+
+      if (includes !== undefined) {
+        localVarQueryParameter["includes[]"] = includes;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get Manga.
+     * @summary Get Manga
+     * @param {string} id Manga ID
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaId: async (
+      id: string,
+      includes?: ReferenceExpansionManga,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getMangaId."
+        );
+      }
+      const localVarPath = `/manga/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (includes !== undefined) {
+        localVarQueryParameter["includes[]"] = includes;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Get a specific Manga Draft
+     * @param {string} id
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaIdDraft: async (
+      id: string,
+      includes?: ReferenceExpansionManga,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getMangaIdDraft."
+        );
+      }
+      const localVarPath = `/manga/draft/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      if (includes !== undefined) {
+        localVarQueryParameter["includes[]"] = includes;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Manga feed
+     * @param {string} id Manga ID
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {Array<string>} [translatedLanguage]
+     * @param {Array<string>} [originalLanguage]
+     * @param {Array<string>} [excludedOriginalLanguage]
+     * @param {Array<string>} [contentRating]
+     * @param {Array<string>} [excludedGroups]
+     * @param {Array<string>} [excludedUploaders]
+     * @param {string} [includeFutureUpdates]
+     * @param {string} [createdAtSince]
+     * @param {string} [updatedAtSince]
+     * @param {string} [publishAtSince]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {string} [orderPublishAt]
+     * @param {string} [orderReadableAt]
+     * @param {string} [orderVolume]
+     * @param {string} [orderChapter]
+     * @param {ReferenceExpansionChapter} [includes]
+     * @param {number} [includeEmptyPages]
+     * @param {number} [includeFuturePublishAt]
+     * @param {number} [includeExternalUrl]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaIdFeed: async (
+      id: string,
+      limit?: number,
+      offset?: number,
+      translatedLanguage?: Array<string>,
+      originalLanguage?: Array<string>,
+      excludedOriginalLanguage?: Array<string>,
+      contentRating?: Array<string>,
+      excludedGroups?: Array<string>,
+      excludedUploaders?: Array<string>,
+      includeFutureUpdates?: string,
+      createdAtSince?: string,
+      updatedAtSince?: string,
+      publishAtSince?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      orderPublishAt?: string,
+      orderReadableAt?: string,
+      orderVolume?: string,
+      orderChapter?: string,
+      includes?: ReferenceExpansionChapter,
+      includeEmptyPages?: number,
+      includeFuturePublishAt?: number,
+      includeExternalUrl?: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getMangaIdFeed."
+        );
+      }
+      const localVarPath = `/manga/{id}/feed`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset;
+      }
+
+      if (translatedLanguage) {
+        localVarQueryParameter["translatedLanguage[]"] = translatedLanguage;
+      }
+
+      if (originalLanguage) {
+        localVarQueryParameter["originalLanguage[]"] = originalLanguage;
+      }
+
+      if (excludedOriginalLanguage) {
+        localVarQueryParameter["excludedOriginalLanguage[]"] =
+          excludedOriginalLanguage;
+      }
+
+      if (contentRating) {
+        localVarQueryParameter["contentRating[]"] = contentRating;
+      }
+
+      if (excludedGroups) {
+        localVarQueryParameter["excludedGroups[]"] = excludedGroups;
+      }
+
+      if (excludedUploaders) {
+        localVarQueryParameter["excludedUploaders[]"] = excludedUploaders;
+      }
+
+      if (includeFutureUpdates !== undefined) {
+        localVarQueryParameter["includeFutureUpdates"] = includeFutureUpdates;
+      }
+
+      if (createdAtSince !== undefined) {
+        localVarQueryParameter["createdAtSince"] = createdAtSince;
+      }
+
+      if (updatedAtSince !== undefined) {
+        localVarQueryParameter["updatedAtSince"] = updatedAtSince;
+      }
+
+      if (publishAtSince !== undefined) {
+        localVarQueryParameter["publishAtSince"] = publishAtSince;
+      }
+
+      if (orderCreatedAt !== undefined) {
+        localVarQueryParameter["order[createdAt]"] = orderCreatedAt;
+      }
+
+      if (orderUpdatedAt !== undefined) {
+        localVarQueryParameter["order[updatedAt]"] = orderUpdatedAt;
+      }
+
+      if (orderPublishAt !== undefined) {
+        localVarQueryParameter["order[publishAt]"] = orderPublishAt;
+      }
+
+      if (orderReadableAt !== undefined) {
+        localVarQueryParameter["order[readableAt]"] = orderReadableAt;
+      }
+
+      if (orderVolume !== undefined) {
+        localVarQueryParameter["order[volume]"] = orderVolume;
+      }
+
+      if (orderChapter !== undefined) {
+        localVarQueryParameter["order[chapter]"] = orderChapter;
+      }
+
+      if (includes !== undefined) {
+        localVarQueryParameter["includes[]"] = includes;
+      }
+
+      if (includeEmptyPages !== undefined) {
+        localVarQueryParameter["includeEmptyPages"] = includeEmptyPages;
+      }
+
+      if (includeFuturePublishAt !== undefined) {
+        localVarQueryParameter["includeFuturePublishAt"] =
+          includeFuturePublishAt;
+      }
+
+      if (includeExternalUrl !== undefined) {
+        localVarQueryParameter["includeExternalUrl"] = includeExternalUrl;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Get a Manga reading status
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaIdStatus: async (
+      id: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling getMangaIdStatus."
+        );
+      }
+      const localVarPath = `/manga/{id}/status`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Get a random Manga
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {Array<string>} [contentRating]
+     * @param {Array<string>} [includedTags]
+     * @param {string} [includedTagsMode]
+     * @param {Array<string>} [excludedTags]
+     * @param {string} [excludedTagsMode]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaRandom: async (
+      includes?: ReferenceExpansionManga,
+      contentRating?: Array<string>,
+      includedTags?: Array<string>,
+      includedTagsMode?: string,
+      excludedTags?: Array<string>,
+      excludedTagsMode?: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/manga/random`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (includes !== undefined) {
+        localVarQueryParameter["includes[]"] = includes;
+      }
+
+      if (contentRating) {
+        localVarQueryParameter["contentRating[]"] = contentRating;
+      }
+
+      if (includedTags) {
+        localVarQueryParameter["includedTags[]"] = includedTags;
+      }
+
+      if (includedTagsMode !== undefined) {
+        localVarQueryParameter["includedTagsMode"] = includedTagsMode;
+      }
+
+      if (excludedTags) {
+        localVarQueryParameter["excludedTags[]"] = excludedTags;
+      }
+
+      if (excludedTagsMode !== undefined) {
+        localVarQueryParameter["excludedTagsMode"] = excludedTagsMode;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Manga relation list
+     * @param {string} mangaId
+     * @param {ReferenceExpansionMangaRelation} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaRelation: async (
+      mangaId: string,
+      includes?: ReferenceExpansionMangaRelation,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'mangaId' is not null or undefined
+      if (mangaId === null || mangaId === undefined) {
+        throw new RequiredError(
+          "mangaId",
+          "Required parameter mangaId was null or undefined when calling getMangaRelation."
+        );
+      }
+      const localVarPath = `/manga/{mangaId}/relation`.replace(
+        `{${"mangaId"}}`,
+        encodeURIComponent(String(mangaId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (includes !== undefined) {
+        localVarQueryParameter["includes[]"] = includes;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Get all Manga reading status for logged User
+     * @param {string} [status] Used to filter the list by given status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaStatus: async (
+      status?: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/manga/status`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      if (status !== undefined) {
+        localVarQueryParameter["status"] = status;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Tag list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMangaTag: async (
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/manga/tag`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Search a list of Manga.
+     * @summary Manga list
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [title]
+     * @param {string} [authorOrArtist]
+     * @param {Array<string>} [authors]
+     * @param {Array<string>} [artists]
+     * @param {Year} [year] Year of release or none
+     * @param {Array<string>} [includedTags]
+     * @param {string} [includedTagsMode]
+     * @param {Array<string>} [excludedTags]
+     * @param {string} [excludedTagsMode]
+     * @param {Array<string>} [status]
+     * @param {Array<string>} [originalLanguage]
+     * @param {Array<string>} [excludedOriginalLanguage]
+     * @param {Array<string>} [availableTranslatedLanguage]
+     * @param {Array<string>} [publicationDemographic]
+     * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
+     * @param {Array<string>} [contentRating]
+     * @param {string} [createdAtSince]
+     * @param {string} [updatedAtSince]
+     * @param {string} [orderTitle]
+     * @param {string} [orderYear]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {string} [orderLatestUploadedChapter]
+     * @param {string} [orderFollowedCount]
+     * @param {string} [orderRelevance]
+     * @param {string} [orderRating]
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {string} [hasAvailableChapters]
+     * @param {string} [group]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSearchManga: async (
+      limit?: number,
+      offset?: number,
+      title?: string,
+      authorOrArtist?: string,
+      authors?: Array<string>,
+      artists?: Array<string>,
+      year?: Year,
+      includedTags?: Array<string>,
+      includedTagsMode?: string,
+      excludedTags?: Array<string>,
+      excludedTagsMode?: string,
+      status?: Array<string>,
+      originalLanguage?: Array<string>,
+      excludedOriginalLanguage?: Array<string>,
+      availableTranslatedLanguage?: Array<string>,
+      publicationDemographic?: Array<string>,
+      ids?: Array<string>,
+      contentRating?: Array<string>,
+      createdAtSince?: string,
+      updatedAtSince?: string,
+      orderTitle?: string,
+      orderYear?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      orderLatestUploadedChapter?: string,
+      orderFollowedCount?: string,
+      orderRelevance?: string,
+      orderRating?: string,
+      includes?: ReferenceExpansionManga,
+      hasAvailableChapters?: string,
+      group?: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/manga`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+      const query = new URLSearchParams(localVarUrlObj.search);
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset;
+      }
+
+      if (title !== undefined) {
+        localVarQueryParameter["title"] = title;
+      }
+
+      if (authorOrArtist !== undefined) {
+        localVarQueryParameter["authorOrArtist"] = authorOrArtist;
+      }
+
+      if (authors) {
+        localVarQueryParameter["authors[]"] = authors;
+      }
+
+      if (artists) {
+        localVarQueryParameter["artists[]"] = artists;
+      }
+
+      if (year !== undefined) {
+        localVarQueryParameter["year"] = year;
+      }
+
+      if (includedTags) {
+        localVarQueryParameter["includedTags[]"] = includedTags;
+      }
+
+      if (includedTagsMode !== undefined) {
+        localVarQueryParameter["includedTagsMode"] = includedTagsMode;
+      }
+
+      if (excludedTags) {
+        localVarQueryParameter["excludedTags[]"] = excludedTags;
+      }
+
+      if (excludedTagsMode !== undefined) {
+        localVarQueryParameter["excludedTagsMode"] = excludedTagsMode;
+      }
+
+      if (status) {
+        localVarQueryParameter["status[]"] = status;
+      }
+
+      if (originalLanguage) {
+        localVarQueryParameter["originalLanguage[]"] = originalLanguage;
+      }
+
+      if (excludedOriginalLanguage) {
+        localVarQueryParameter["excludedOriginalLanguage[]"] =
+          excludedOriginalLanguage;
+      }
+
+      if (availableTranslatedLanguage) {
+        localVarQueryParameter["availableTranslatedLanguage[]"] =
+          availableTranslatedLanguage;
+      }
+
+      if (publicationDemographic) {
+        localVarQueryParameter["publicationDemographic[]"] =
+          publicationDemographic;
+      }
+
+      if (ids) {
+        for (const obj of ids) {
+            query.append("ids[]", obj);
+        }
+      }
+
+      if (contentRating) {
+        for (const obj of contentRating) {
+            query.append("contentRating[]", obj);
+        }
+      }
+
+      if (createdAtSince !== undefined) {
+        localVarQueryParameter["createdAtSince"] = createdAtSince;
+      }
+
+      if (updatedAtSince !== undefined) {
+        localVarQueryParameter["updatedAtSince"] = updatedAtSince;
+      }
+
+      if (orderTitle !== undefined) {
+        localVarQueryParameter["order[title]"] = orderTitle;
+      }
+
+      if (orderYear !== undefined) {
+        localVarQueryParameter["order[year]"] = orderYear;
+      }
+
+      if (orderCreatedAt !== undefined) {
+        localVarQueryParameter["order[createdAt]"] = orderCreatedAt;
+      }
+
+      if (orderUpdatedAt !== undefined) {
+        localVarQueryParameter["order[updatedAt]"] = orderUpdatedAt;
+      }
+
+      if (orderLatestUploadedChapter !== undefined) {
+        localVarQueryParameter["order[latestUploadedChapter]"] =
+          orderLatestUploadedChapter;
+      }
+
+      if (orderFollowedCount !== undefined) {
+        localVarQueryParameter["order[followedCount]"] = orderFollowedCount;
+      }
+
+      if (orderRelevance !== undefined) {
+        localVarQueryParameter["order[relevance]"] = orderRelevance;
+      }
+
+      if (orderRating !== undefined) {
+        localVarQueryParameter["order[rating]"] = orderRating;
+      }
+
+      if (includes !== undefined) {
+        localVarQueryParameter["includes[]"] = includes;
+      }
+
+      if (hasAvailableChapters !== undefined) {
+        localVarQueryParameter["hasAvailableChapters"] = hasAvailableChapters;
+      }
+
+      if (group !== undefined) {
+        localVarQueryParameter["group"] = group;
+      }
+
+      query
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create a new Manga.
+     * @summary Create Manga
+     * @param {string} contentType
+     * @param {MangaCreate} [body] The size of the body is limited to 64KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postManga: async (
+      contentType: string,
+      body?: MangaCreate,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'contentType' is not null or undefined
+      if (contentType === null || contentType === undefined) {
+        throw new RequiredError(
+          "contentType",
+          "Required parameter contentType was null or undefined when calling postManga."
+        );
+      }
+      const localVarPath = `/manga`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      if (contentType !== undefined && contentType !== null) {
+        localVarHeaderParameter["Content-Type"] = String(contentType);
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Follow Manga
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postMangaIdFollow: async (
+      id: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling postMangaIdFollow."
+        );
+      }
+      const localVarPath = `/manga/{id}/follow`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Update Manga reading status
+     * @param {string} contentType
+     * @param {string} id
+     * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postMangaIdStatus: async (
+      contentType: string,
+      id: string,
+      body?: UpdateMangaStatus,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'contentType' is not null or undefined
+      if (contentType === null || contentType === undefined) {
+        throw new RequiredError(
+          "contentType",
+          "Required parameter contentType was null or undefined when calling postMangaIdStatus."
+        );
+      }
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling postMangaIdStatus."
+        );
+      }
+      const localVarPath = `/manga/{id}/status`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      if (contentType !== undefined && contentType !== null) {
+        localVarHeaderParameter["Content-Type"] = String(contentType);
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create a new Manga relation.
+     * @summary Create Manga relation
+     * @param {string} contentType
+     * @param {string} mangaId
+     * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    postMangaRelation: async (
+      contentType: string,
+      mangaId: string,
+      body?: MangaRelationCreate,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'contentType' is not null or undefined
+      if (contentType === null || contentType === undefined) {
+        throw new RequiredError(
+          "contentType",
+          "Required parameter contentType was null or undefined when calling postMangaRelation."
+        );
+      }
+      // verify required parameter 'mangaId' is not null or undefined
+      if (mangaId === null || mangaId === undefined) {
+        throw new RequiredError(
+          "mangaId",
+          "Required parameter mangaId was null or undefined when calling postMangaRelation."
+        );
+      }
+      const localVarPath = `/manga/{mangaId}/relation`.replace(
+        `{${"mangaId"}}`,
+        encodeURIComponent(String(mangaId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      if (contentType !== undefined && contentType !== null) {
+        localVarHeaderParameter["Content-Type"] = String(contentType);
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Update Manga
+     * @param {string} contentType
+     * @param {string} id Manga ID
+     * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    putMangaId: async (
+      contentType: string,
+      id: string,
+      body?: MangaIdBody,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'contentType' is not null or undefined
+      if (contentType === null || contentType === undefined) {
+        throw new RequiredError(
+          "contentType",
+          "Required parameter contentType was null or undefined when calling putMangaId."
+        );
+      }
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling putMangaId."
+        );
+      }
+      const localVarPath = `/manga/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === "function"
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+      if (contentType !== undefined && contentType !== null) {
+        localVarHeaderParameter["Content-Type"] = String(contentType);
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json";
+
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+  };
 };
 
 /**
  * MangaApi - functional programming interface
  * @export
  */
-export const MangaApiFp = function(configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Submit a Manga Draft
-         * @param {string} id 
-         * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async commitMangaDraft(id: string, body?: IdCommitBody, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).commitMangaDraft(id, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Delete Manga
-         * @param {string} id Manga ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteMangaId(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Response>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).deleteMangaId(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Unfollow Manga
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteMangaIdFollow(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Response>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).deleteMangaIdFollow(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Delete Manga relation
-         * @param {string} mangaId 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteMangaRelationId(mangaId: string, id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Response>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).deleteMangaRelationId(mangaId, id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get Manga volumes & chapters
-         * @param {string} id Manga ID
-         * @param {Array<string>} [translatedLanguage] 
-         * @param {Array<string>} [groups] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaAggregate(id: string, translatedLanguage?: Array<string>, groups?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InlineResponse200>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaAggregate(id, translatedLanguage, groups, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get a list of Manga Drafts
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {string} [state] 
-         * @param {string} [orderTitle] 
-         * @param {string} [orderYear] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaDrafts(limit?: number, offset?: number, state?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaDrafts(limit, offset, state, orderTitle, orderYear, orderCreatedAt, orderUpdatedAt, includes, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * Get Manga.
-         * @summary Get Manga
-         * @param {string} id Manga ID
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaId(id: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaId(id, includes, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get a specific Manga Draft
-         * @param {string} id 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaIdDraft(id: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaIdDraft(id, includes, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Manga feed
-         * @param {string} id Manga ID
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {Array<string>} [translatedLanguage] 
-         * @param {Array<string>} [originalLanguage] 
-         * @param {Array<string>} [excludedOriginalLanguage] 
-         * @param {Array<string>} [contentRating] 
-         * @param {Array<string>} [excludedGroups] 
-         * @param {Array<string>} [excludedUploaders] 
-         * @param {string} [includeFutureUpdates] 
-         * @param {string} [createdAtSince] 
-         * @param {string} [updatedAtSince] 
-         * @param {string} [publishAtSince] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {string} [orderPublishAt] 
-         * @param {string} [orderReadableAt] 
-         * @param {string} [orderVolume] 
-         * @param {string} [orderChapter] 
-         * @param {ReferenceExpansionChapter} [includes] 
-         * @param {number} [includeEmptyPages] 
-         * @param {number} [includeFuturePublishAt] 
-         * @param {number} [includeExternalUrl] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaIdFeed(id: string, limit?: number, offset?: number, translatedLanguage?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, contentRating?: Array<string>, excludedGroups?: Array<string>, excludedUploaders?: Array<string>, includeFutureUpdates?: string, createdAtSince?: string, updatedAtSince?: string, publishAtSince?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderPublishAt?: string, orderReadableAt?: string, orderVolume?: string, orderChapter?: string, includes?: ReferenceExpansionChapter, includeEmptyPages?: number, includeFuturePublishAt?: number, includeExternalUrl?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ChapterList>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaIdFeed(id, limit, offset, translatedLanguage, originalLanguage, excludedOriginalLanguage, contentRating, excludedGroups, excludedUploaders, includeFutureUpdates, createdAtSince, updatedAtSince, publishAtSince, orderCreatedAt, orderUpdatedAt, orderPublishAt, orderReadableAt, orderVolume, orderChapter, includes, includeEmptyPages, includeFuturePublishAt, includeExternalUrl, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get a Manga reading status
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaIdStatus(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InlineResponse2009>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaIdStatus(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get a random Manga
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {Array<string>} [contentRating] 
-         * @param {Array<string>} [includedTags] 
-         * @param {string} [includedTagsMode] 
-         * @param {Array<string>} [excludedTags] 
-         * @param {string} [excludedTagsMode] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaRandom(includes?: ReferenceExpansionManga, contentRating?: Array<string>, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaRandom(includes, contentRating, includedTags, includedTagsMode, excludedTags, excludedTagsMode, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Manga relation list
-         * @param {string} mangaId 
-         * @param {ReferenceExpansionMangaRelation} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaRelation(mangaId: string, includes?: ReferenceExpansionMangaRelation, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaRelationList>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaRelation(mangaId, includes, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get all Manga reading status for logged User
-         * @param {string} [status] Used to filter the list by given status
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaStatus(status?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InlineResponse2008>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaStatus(status, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Tag list
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaTag(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<TagResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getMangaTag(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * Search a list of Manga.
-         * @summary Manga list
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {string} [title] 
-         * @param {string} [authorOrArtist] 
-         * @param {Array<string>} [authors] 
-         * @param {Array<string>} [artists] 
-         * @param {Year} [year] Year of release or none
-         * @param {Array<string>} [includedTags] 
-         * @param {string} [includedTagsMode] 
-         * @param {Array<string>} [excludedTags] 
-         * @param {string} [excludedTagsMode] 
-         * @param {Array<string>} [status] 
-         * @param {Array<string>} [originalLanguage] 
-         * @param {Array<string>} [excludedOriginalLanguage] 
-         * @param {Array<string>} [availableTranslatedLanguage] 
-         * @param {Array<string>} [publicationDemographic] 
-         * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
-         * @param {Array<string>} [contentRating] 
-         * @param {string} [createdAtSince] 
-         * @param {string} [updatedAtSince] 
-         * @param {string} [orderTitle] 
-         * @param {string} [orderYear] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {string} [orderLatestUploadedChapter] 
-         * @param {string} [orderFollowedCount] 
-         * @param {string} [orderRelevance] 
-         * @param {string} [orderRating] 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {string} [hasAvailableChapters] 
-         * @param {string} [group] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSearchManga(limit?: number, offset?: number, title?: string, authorOrArtist?: string, authors?: Array<string>, artists?: Array<string>, year?: Year, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, status?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, availableTranslatedLanguage?: Array<string>, publicationDemographic?: Array<string>, ids?: Array<string>, contentRating?: Array<string>, createdAtSince?: string, updatedAtSince?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderLatestUploadedChapter?: string, orderFollowedCount?: string, orderRelevance?: string, orderRating?: string, includes?: ReferenceExpansionManga, hasAvailableChapters?: string, group?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaList>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).getSearchManga(limit, offset, title, authorOrArtist, authors, artists, year, includedTags, includedTagsMode, excludedTags, excludedTagsMode, status, originalLanguage, excludedOriginalLanguage, availableTranslatedLanguage, publicationDemographic, ids, contentRating, createdAtSince, updatedAtSince, orderTitle, orderYear, orderCreatedAt, orderUpdatedAt, orderLatestUploadedChapter, orderFollowedCount, orderRelevance, orderRating, includes, hasAvailableChapters, group, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * Create a new Manga.
-         * @summary Create Manga
-         * @param {string} contentType 
-         * @param {MangaCreate} [body] The size of the body is limited to 64KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postManga(contentType: string, body?: MangaCreate, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).postManga(contentType, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Follow Manga
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postMangaIdFollow(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Response>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).postMangaIdFollow(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Update Manga reading status
-         * @param {string} contentType 
-         * @param {string} id 
-         * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postMangaIdStatus(contentType: string, id: string, body?: UpdateMangaStatus, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Response>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).postMangaIdStatus(contentType, id, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * Create a new Manga relation.
-         * @summary Create Manga relation
-         * @param {string} contentType 
-         * @param {string} mangaId 
-         * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postMangaRelation(contentType: string, mangaId: string, body?: MangaRelationCreate, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaRelationResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).postMangaRelation(contentType, mangaId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Update Manga
-         * @param {string} contentType 
-         * @param {string} id Manga ID
-         * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async putMangaId(contentType: string, id: string, body?: MangaIdBody, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<MangaResponse>>> {
-            const localVarAxiosArgs = await MangaApiAxiosParamCreator(configuration).putMangaId(contentType, id, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-    }
+export const MangaApiFp = function (configuration?: Configuration) {
+  return {
+    /**
+     *
+     * @summary Submit a Manga Draft
+     * @param {string} id
+     * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async commitMangaDraft(
+      id: string,
+      body?: IdCommitBody,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).commitMangaDraft(id, body, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Delete Manga
+     * @param {string} id Manga ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteMangaId(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Response>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).deleteMangaId(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Unfollow Manga
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteMangaIdFollow(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Response>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).deleteMangaIdFollow(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Delete Manga relation
+     * @param {string} mangaId
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteMangaRelationId(
+      mangaId: string,
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Response>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).deleteMangaRelationId(mangaId, id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Get Manga volumes & chapters
+     * @param {string} id Manga ID
+     * @param {Array<string>} [translatedLanguage]
+     * @param {Array<string>} [groups]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaAggregate(
+      id: string,
+      translatedLanguage?: Array<string>,
+      groups?: Array<string>,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<InlineResponse200>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaAggregate(id, translatedLanguage, groups, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Get a list of Manga Drafts
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [state]
+     * @param {string} [orderTitle]
+     * @param {string} [orderYear]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaDrafts(
+      limit?: number,
+      offset?: number,
+      state?: string,
+      orderTitle?: string,
+      orderYear?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      includes?: ReferenceExpansionManga,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaDrafts(
+        limit,
+        offset,
+        state,
+        orderTitle,
+        orderYear,
+        orderCreatedAt,
+        orderUpdatedAt,
+        includes,
+        options
+      );
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Get Manga.
+     * @summary Get Manga
+     * @param {string} id Manga ID
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaId(
+      id: string,
+      includes?: ReferenceExpansionManga,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaId(id, includes, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Get a specific Manga Draft
+     * @param {string} id
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaIdDraft(
+      id: string,
+      includes?: ReferenceExpansionManga,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaIdDraft(id, includes, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Manga feed
+     * @param {string} id Manga ID
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {Array<string>} [translatedLanguage]
+     * @param {Array<string>} [originalLanguage]
+     * @param {Array<string>} [excludedOriginalLanguage]
+     * @param {Array<string>} [contentRating]
+     * @param {Array<string>} [excludedGroups]
+     * @param {Array<string>} [excludedUploaders]
+     * @param {string} [includeFutureUpdates]
+     * @param {string} [createdAtSince]
+     * @param {string} [updatedAtSince]
+     * @param {string} [publishAtSince]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {string} [orderPublishAt]
+     * @param {string} [orderReadableAt]
+     * @param {string} [orderVolume]
+     * @param {string} [orderChapter]
+     * @param {ReferenceExpansionChapter} [includes]
+     * @param {number} [includeEmptyPages]
+     * @param {number} [includeFuturePublishAt]
+     * @param {number} [includeExternalUrl]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaIdFeed(
+      id: string,
+      limit?: number,
+      offset?: number,
+      translatedLanguage?: Array<string>,
+      originalLanguage?: Array<string>,
+      excludedOriginalLanguage?: Array<string>,
+      contentRating?: Array<string>,
+      excludedGroups?: Array<string>,
+      excludedUploaders?: Array<string>,
+      includeFutureUpdates?: string,
+      createdAtSince?: string,
+      updatedAtSince?: string,
+      publishAtSince?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      orderPublishAt?: string,
+      orderReadableAt?: string,
+      orderVolume?: string,
+      orderChapter?: string,
+      includes?: ReferenceExpansionChapter,
+      includeEmptyPages?: number,
+      includeFuturePublishAt?: number,
+      includeExternalUrl?: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<ChapterList>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaIdFeed(
+        id,
+        limit,
+        offset,
+        translatedLanguage,
+        originalLanguage,
+        excludedOriginalLanguage,
+        contentRating,
+        excludedGroups,
+        excludedUploaders,
+        includeFutureUpdates,
+        createdAtSince,
+        updatedAtSince,
+        publishAtSince,
+        orderCreatedAt,
+        orderUpdatedAt,
+        orderPublishAt,
+        orderReadableAt,
+        orderVolume,
+        orderChapter,
+        includes,
+        includeEmptyPages,
+        includeFuturePublishAt,
+        includeExternalUrl,
+        options
+      );
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Get a Manga reading status
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaIdStatus(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<InlineResponse2009>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaIdStatus(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Get a random Manga
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {Array<string>} [contentRating]
+     * @param {Array<string>} [includedTags]
+     * @param {string} [includedTagsMode]
+     * @param {Array<string>} [excludedTags]
+     * @param {string} [excludedTagsMode]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaRandom(
+      includes?: ReferenceExpansionManga,
+      contentRating?: Array<string>,
+      includedTags?: Array<string>,
+      includedTagsMode?: string,
+      excludedTags?: Array<string>,
+      excludedTagsMode?: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaRandom(
+        includes,
+        contentRating,
+        includedTags,
+        includedTagsMode,
+        excludedTags,
+        excludedTagsMode,
+        options
+      );
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Manga relation list
+     * @param {string} mangaId
+     * @param {ReferenceExpansionMangaRelation} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaRelation(
+      mangaId: string,
+      includes?: ReferenceExpansionMangaRelation,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaRelationList>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaRelation(mangaId, includes, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Get all Manga reading status for logged User
+     * @param {string} [status] Used to filter the list by given status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaStatus(
+      status?: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<InlineResponse2008>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaStatus(status, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Tag list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaTag(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<TagResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getMangaTag(options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Search a list of Manga.
+     * @summary Manga list
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [title]
+     * @param {string} [authorOrArtist]
+     * @param {Array<string>} [authors]
+     * @param {Array<string>} [artists]
+     * @param {Year} [year] Year of release or none
+     * @param {Array<string>} [includedTags]
+     * @param {string} [includedTagsMode]
+     * @param {Array<string>} [excludedTags]
+     * @param {string} [excludedTagsMode]
+     * @param {Array<string>} [status]
+     * @param {Array<string>} [originalLanguage]
+     * @param {Array<string>} [excludedOriginalLanguage]
+     * @param {Array<string>} [availableTranslatedLanguage]
+     * @param {Array<string>} [publicationDemographic]
+     * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
+     * @param {Array<string>} [contentRating]
+     * @param {string} [createdAtSince]
+     * @param {string} [updatedAtSince]
+     * @param {string} [orderTitle]
+     * @param {string} [orderYear]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {string} [orderLatestUploadedChapter]
+     * @param {string} [orderFollowedCount]
+     * @param {string} [orderRelevance]
+     * @param {string} [orderRating]
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {string} [hasAvailableChapters]
+     * @param {string} [group]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSearchManga(
+      limit?: number,
+      offset?: number,
+      title?: string,
+      authorOrArtist?: string,
+      authors?: Array<string>,
+      artists?: Array<string>,
+      year?: Year,
+      includedTags?: Array<string>,
+      includedTagsMode?: string,
+      excludedTags?: Array<string>,
+      excludedTagsMode?: string,
+      status?: Array<string>,
+      originalLanguage?: Array<string>,
+      excludedOriginalLanguage?: Array<string>,
+      availableTranslatedLanguage?: Array<string>,
+      publicationDemographic?: Array<string>,
+      ids?: Array<string>,
+      contentRating?: Array<string>,
+      createdAtSince?: string,
+      updatedAtSince?: string,
+      orderTitle?: string,
+      orderYear?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      orderLatestUploadedChapter?: string,
+      orderFollowedCount?: string,
+      orderRelevance?: string,
+      orderRating?: string,
+      includes?: ReferenceExpansionManga,
+      hasAvailableChapters?: string,
+      group?: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaList>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).getSearchManga(
+        limit,
+        offset,
+        title,
+        authorOrArtist,
+        authors,
+        artists,
+        year,
+        includedTags,
+        includedTagsMode,
+        excludedTags,
+        excludedTagsMode,
+        status,
+        originalLanguage,
+        excludedOriginalLanguage,
+        availableTranslatedLanguage,
+        publicationDemographic,
+        ids,
+        contentRating,
+        createdAtSince,
+        updatedAtSince,
+        orderTitle,
+        orderYear,
+        orderCreatedAt,
+        orderUpdatedAt,
+        orderLatestUploadedChapter,
+        orderFollowedCount,
+        orderRelevance,
+        orderRating,
+        includes,
+        hasAvailableChapters,
+        group,
+        options
+      );
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Create a new Manga.
+     * @summary Create Manga
+     * @param {string} contentType
+     * @param {MangaCreate} [body] The size of the body is limited to 64KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postManga(
+      contentType: string,
+      body?: MangaCreate,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).postManga(contentType, body, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Follow Manga
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postMangaIdFollow(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Response>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).postMangaIdFollow(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Update Manga reading status
+     * @param {string} contentType
+     * @param {string} id
+     * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postMangaIdStatus(
+      contentType: string,
+      id: string,
+      body?: UpdateMangaStatus,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Response>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).postMangaIdStatus(contentType, id, body, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Create a new Manga relation.
+     * @summary Create Manga relation
+     * @param {string} contentType
+     * @param {string} mangaId
+     * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postMangaRelation(
+      contentType: string,
+      mangaId: string,
+      body?: MangaRelationCreate,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaRelationResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).postMangaRelation(contentType, mangaId, body, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Update Manga
+     * @param {string} contentType
+     * @param {string} id Manga ID
+     * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async putMangaId(
+      contentType: string,
+      id: string,
+      body?: MangaIdBody,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<MangaResponse>>
+    > {
+      const localVarAxiosArgs = await MangaApiAxiosParamCreator(
+        configuration
+      ).putMangaId(contentType, id, body, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+  };
 };
 
 /**
  * MangaApi - factory interface
  * @export
  */
-export const MangaApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    return {
-        /**
-         * 
-         * @summary Submit a Manga Draft
-         * @param {string} id 
-         * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async commitMangaDraft(id: string, body?: IdCommitBody, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaResponse>> {
-            return MangaApiFp(configuration).commitMangaDraft(id, body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Delete Manga
-         * @param {string} id Manga ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteMangaId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Response>> {
-            return MangaApiFp(configuration).deleteMangaId(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Unfollow Manga
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteMangaIdFollow(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Response>> {
-            return MangaApiFp(configuration).deleteMangaIdFollow(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Delete Manga relation
-         * @param {string} mangaId 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteMangaRelationId(mangaId: string, id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Response>> {
-            return MangaApiFp(configuration).deleteMangaRelationId(mangaId, id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get Manga volumes & chapters
-         * @param {string} id Manga ID
-         * @param {Array<string>} [translatedLanguage] 
-         * @param {Array<string>} [groups] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaAggregate(id: string, translatedLanguage?: Array<string>, groups?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<InlineResponse200>> {
-            return MangaApiFp(configuration).getMangaAggregate(id, translatedLanguage, groups, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a list of Manga Drafts
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {string} [state] 
-         * @param {string} [orderTitle] 
-         * @param {string} [orderYear] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaDrafts(limit?: number, offset?: number, state?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaResponse>> {
-            return MangaApiFp(configuration).getMangaDrafts(limit, offset, state, orderTitle, orderYear, orderCreatedAt, orderUpdatedAt, includes, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get Manga.
-         * @summary Get Manga
-         * @param {string} id Manga ID
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaId(id: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaResponse>> {
-            return MangaApiFp(configuration).getMangaId(id, includes, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a specific Manga Draft
-         * @param {string} id 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaIdDraft(id: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaResponse>> {
-            return MangaApiFp(configuration).getMangaIdDraft(id, includes, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Manga feed
-         * @param {string} id Manga ID
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {Array<string>} [translatedLanguage] 
-         * @param {Array<string>} [originalLanguage] 
-         * @param {Array<string>} [excludedOriginalLanguage] 
-         * @param {Array<string>} [contentRating] 
-         * @param {Array<string>} [excludedGroups] 
-         * @param {Array<string>} [excludedUploaders] 
-         * @param {string} [includeFutureUpdates] 
-         * @param {string} [createdAtSince] 
-         * @param {string} [updatedAtSince] 
-         * @param {string} [publishAtSince] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {string} [orderPublishAt] 
-         * @param {string} [orderReadableAt] 
-         * @param {string} [orderVolume] 
-         * @param {string} [orderChapter] 
-         * @param {ReferenceExpansionChapter} [includes] 
-         * @param {number} [includeEmptyPages] 
-         * @param {number} [includeFuturePublishAt] 
-         * @param {number} [includeExternalUrl] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaIdFeed(id: string, limit?: number, offset?: number, translatedLanguage?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, contentRating?: Array<string>, excludedGroups?: Array<string>, excludedUploaders?: Array<string>, includeFutureUpdates?: string, createdAtSince?: string, updatedAtSince?: string, publishAtSince?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderPublishAt?: string, orderReadableAt?: string, orderVolume?: string, orderChapter?: string, includes?: ReferenceExpansionChapter, includeEmptyPages?: number, includeFuturePublishAt?: number, includeExternalUrl?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<ChapterList>> {
-            return MangaApiFp(configuration).getMangaIdFeed(id, limit, offset, translatedLanguage, originalLanguage, excludedOriginalLanguage, contentRating, excludedGroups, excludedUploaders, includeFutureUpdates, createdAtSince, updatedAtSince, publishAtSince, orderCreatedAt, orderUpdatedAt, orderPublishAt, orderReadableAt, orderVolume, orderChapter, includes, includeEmptyPages, includeFuturePublishAt, includeExternalUrl, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a Manga reading status
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaIdStatus(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<InlineResponse2009>> {
-            return MangaApiFp(configuration).getMangaIdStatus(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get a random Manga
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {Array<string>} [contentRating] 
-         * @param {Array<string>} [includedTags] 
-         * @param {string} [includedTagsMode] 
-         * @param {Array<string>} [excludedTags] 
-         * @param {string} [excludedTagsMode] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaRandom(includes?: ReferenceExpansionManga, contentRating?: Array<string>, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaResponse>> {
-            return MangaApiFp(configuration).getMangaRandom(includes, contentRating, includedTags, includedTagsMode, excludedTags, excludedTagsMode, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Manga relation list
-         * @param {string} mangaId 
-         * @param {ReferenceExpansionMangaRelation} [includes] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaRelation(mangaId: string, includes?: ReferenceExpansionMangaRelation, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaRelationList>> {
-            return MangaApiFp(configuration).getMangaRelation(mangaId, includes, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get all Manga reading status for logged User
-         * @param {string} [status] Used to filter the list by given status
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaStatus(status?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<InlineResponse2008>> {
-            return MangaApiFp(configuration).getMangaStatus(status, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Tag list
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getMangaTag(options?: AxiosRequestConfig): Promise<AxiosResponse<TagResponse>> {
-            return MangaApiFp(configuration).getMangaTag(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Search a list of Manga.
-         * @summary Manga list
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {string} [title] 
-         * @param {string} [authorOrArtist] 
-         * @param {Array<string>} [authors] 
-         * @param {Array<string>} [artists] 
-         * @param {Year} [year] Year of release or none
-         * @param {Array<string>} [includedTags] 
-         * @param {string} [includedTagsMode] 
-         * @param {Array<string>} [excludedTags] 
-         * @param {string} [excludedTagsMode] 
-         * @param {Array<string>} [status] 
-         * @param {Array<string>} [originalLanguage] 
-         * @param {Array<string>} [excludedOriginalLanguage] 
-         * @param {Array<string>} [availableTranslatedLanguage] 
-         * @param {Array<string>} [publicationDemographic] 
-         * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
-         * @param {Array<string>} [contentRating] 
-         * @param {string} [createdAtSince] 
-         * @param {string} [updatedAtSince] 
-         * @param {string} [orderTitle] 
-         * @param {string} [orderYear] 
-         * @param {string} [orderCreatedAt] 
-         * @param {string} [orderUpdatedAt] 
-         * @param {string} [orderLatestUploadedChapter] 
-         * @param {string} [orderFollowedCount] 
-         * @param {string} [orderRelevance] 
-         * @param {string} [orderRating] 
-         * @param {ReferenceExpansionManga} [includes] 
-         * @param {string} [hasAvailableChapters] 
-         * @param {string} [group] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getSearchManga(limit?: number, offset?: number, title?: string, authorOrArtist?: string, authors?: Array<string>, artists?: Array<string>, year?: Year, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, status?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, availableTranslatedLanguage?: Array<string>, publicationDemographic?: Array<string>, ids?: Array<string>, contentRating?: Array<string>, createdAtSince?: string, updatedAtSince?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderLatestUploadedChapter?: string, orderFollowedCount?: string, orderRelevance?: string, orderRating?: string, includes?: ReferenceExpansionManga, hasAvailableChapters?: string, group?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaList>> {
-            return MangaApiFp(configuration).getSearchManga(limit, offset, title, authorOrArtist, authors, artists, year, includedTags, includedTagsMode, excludedTags, excludedTagsMode, status, originalLanguage, excludedOriginalLanguage, availableTranslatedLanguage, publicationDemographic, ids, contentRating, createdAtSince, updatedAtSince, orderTitle, orderYear, orderCreatedAt, orderUpdatedAt, orderLatestUploadedChapter, orderFollowedCount, orderRelevance, orderRating, includes, hasAvailableChapters, group, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Create a new Manga.
-         * @summary Create Manga
-         * @param {string} contentType 
-         * @param {MangaCreate} [body] The size of the body is limited to 64KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postManga(contentType: string, body?: MangaCreate, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaResponse>> {
-            return MangaApiFp(configuration).postManga(contentType, body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Follow Manga
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postMangaIdFollow(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Response>> {
-            return MangaApiFp(configuration).postMangaIdFollow(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Update Manga reading status
-         * @param {string} contentType 
-         * @param {string} id 
-         * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postMangaIdStatus(contentType: string, id: string, body?: UpdateMangaStatus, options?: AxiosRequestConfig): Promise<AxiosResponse<Response>> {
-            return MangaApiFp(configuration).postMangaIdStatus(contentType, id, body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Create a new Manga relation.
-         * @summary Create Manga relation
-         * @param {string} contentType 
-         * @param {string} mangaId 
-         * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postMangaRelation(contentType: string, mangaId: string, body?: MangaRelationCreate, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaRelationResponse>> {
-            return MangaApiFp(configuration).postMangaRelation(contentType, mangaId, body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Update Manga
-         * @param {string} contentType 
-         * @param {string} id Manga ID
-         * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async putMangaId(contentType: string, id: string, body?: MangaIdBody, options?: AxiosRequestConfig): Promise<AxiosResponse<MangaResponse>> {
-            return MangaApiFp(configuration).putMangaId(contentType, id, body, options).then((request) => request(axios, basePath));
-        },
-    };
+export const MangaApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance
+) {
+  return {
+    /**
+     *
+     * @summary Submit a Manga Draft
+     * @param {string} id
+     * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async commitMangaDraft(
+      id: string,
+      body?: IdCommitBody,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaResponse>> {
+      return MangaApiFp(configuration)
+        .commitMangaDraft(id, body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Delete Manga
+     * @param {string} id Manga ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteMangaId(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Response>> {
+      return MangaApiFp(configuration)
+        .deleteMangaId(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Unfollow Manga
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteMangaIdFollow(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Response>> {
+      return MangaApiFp(configuration)
+        .deleteMangaIdFollow(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Delete Manga relation
+     * @param {string} mangaId
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteMangaRelationId(
+      mangaId: string,
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Response>> {
+      return MangaApiFp(configuration)
+        .deleteMangaRelationId(mangaId, id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Get Manga volumes & chapters
+     * @param {string} id Manga ID
+     * @param {Array<string>} [translatedLanguage]
+     * @param {Array<string>} [groups]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaAggregate(
+      id: string,
+      translatedLanguage?: Array<string>,
+      groups?: Array<string>,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<InlineResponse200>> {
+      return MangaApiFp(configuration)
+        .getMangaAggregate(id, translatedLanguage, groups, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Get a list of Manga Drafts
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [state]
+     * @param {string} [orderTitle]
+     * @param {string} [orderYear]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaDrafts(
+      limit?: number,
+      offset?: number,
+      state?: string,
+      orderTitle?: string,
+      orderYear?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      includes?: ReferenceExpansionManga,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaResponse>> {
+      return MangaApiFp(configuration)
+        .getMangaDrafts(
+          limit,
+          offset,
+          state,
+          orderTitle,
+          orderYear,
+          orderCreatedAt,
+          orderUpdatedAt,
+          includes,
+          options
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Get Manga.
+     * @summary Get Manga
+     * @param {string} id Manga ID
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaId(
+      id: string,
+      includes?: ReferenceExpansionManga,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaResponse>> {
+      return MangaApiFp(configuration)
+        .getMangaId(id, includes, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Get a specific Manga Draft
+     * @param {string} id
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaIdDraft(
+      id: string,
+      includes?: ReferenceExpansionManga,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaResponse>> {
+      return MangaApiFp(configuration)
+        .getMangaIdDraft(id, includes, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Manga feed
+     * @param {string} id Manga ID
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {Array<string>} [translatedLanguage]
+     * @param {Array<string>} [originalLanguage]
+     * @param {Array<string>} [excludedOriginalLanguage]
+     * @param {Array<string>} [contentRating]
+     * @param {Array<string>} [excludedGroups]
+     * @param {Array<string>} [excludedUploaders]
+     * @param {string} [includeFutureUpdates]
+     * @param {string} [createdAtSince]
+     * @param {string} [updatedAtSince]
+     * @param {string} [publishAtSince]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {string} [orderPublishAt]
+     * @param {string} [orderReadableAt]
+     * @param {string} [orderVolume]
+     * @param {string} [orderChapter]
+     * @param {ReferenceExpansionChapter} [includes]
+     * @param {number} [includeEmptyPages]
+     * @param {number} [includeFuturePublishAt]
+     * @param {number} [includeExternalUrl]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaIdFeed(
+      id: string,
+      limit?: number,
+      offset?: number,
+      translatedLanguage?: Array<string>,
+      originalLanguage?: Array<string>,
+      excludedOriginalLanguage?: Array<string>,
+      contentRating?: Array<string>,
+      excludedGroups?: Array<string>,
+      excludedUploaders?: Array<string>,
+      includeFutureUpdates?: string,
+      createdAtSince?: string,
+      updatedAtSince?: string,
+      publishAtSince?: string,
+      orderCreatedAt?: string,
+      orderUpdatedAt?: string,
+      orderPublishAt?: string,
+      orderReadableAt?: string,
+      orderVolume?: string,
+      orderChapter?: string,
+      includes?: ReferenceExpansionChapter,
+      includeEmptyPages?: number,
+      includeFuturePublishAt?: number,
+      includeExternalUrl?: number,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<ChapterList>> {
+      return MangaApiFp(configuration)
+        .getMangaIdFeed(
+          id,
+          limit,
+          offset,
+          translatedLanguage,
+          originalLanguage,
+          excludedOriginalLanguage,
+          contentRating,
+          excludedGroups,
+          excludedUploaders,
+          includeFutureUpdates,
+          createdAtSince,
+          updatedAtSince,
+          publishAtSince,
+          orderCreatedAt,
+          orderUpdatedAt,
+          orderPublishAt,
+          orderReadableAt,
+          orderVolume,
+          orderChapter,
+          includes,
+          includeEmptyPages,
+          includeFuturePublishAt,
+          includeExternalUrl,
+          options
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Get a Manga reading status
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaIdStatus(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<InlineResponse2009>> {
+      return MangaApiFp(configuration)
+        .getMangaIdStatus(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Get a random Manga
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {Array<string>} [contentRating]
+     * @param {Array<string>} [includedTags]
+     * @param {string} [includedTagsMode]
+     * @param {Array<string>} [excludedTags]
+     * @param {string} [excludedTagsMode]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaRandom(
+      includes?: ReferenceExpansionManga,
+      contentRating?: Array<string>,
+      includedTags?: Array<string>,
+      includedTagsMode?: string,
+      excludedTags?: Array<string>,
+      excludedTagsMode?: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaResponse>> {
+      return MangaApiFp(configuration)
+        .getMangaRandom(
+          includes,
+          contentRating,
+          includedTags,
+          includedTagsMode,
+          excludedTags,
+          excludedTagsMode,
+          options
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Manga relation list
+     * @param {string} mangaId
+     * @param {ReferenceExpansionMangaRelation} [includes]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaRelation(
+      mangaId: string,
+      includes?: ReferenceExpansionMangaRelation,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaRelationList>> {
+      return MangaApiFp(configuration)
+        .getMangaRelation(mangaId, includes, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Get all Manga reading status for logged User
+     * @param {string} [status] Used to filter the list by given status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaStatus(
+      status?: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<InlineResponse2008>> {
+      return MangaApiFp(configuration)
+        .getMangaStatus(status, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Tag list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMangaTag(
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<TagResponse>> {
+      return MangaApiFp(configuration)
+        .getMangaTag(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Search a list of Manga.
+     * @summary Manga list
+     * @param {number} [limit]
+     * @param {number} [offset]
+     * @param {string} [title]
+     * @param {string} [authorOrArtist]
+     * @param {Array<string>} [authors]
+     * @param {Array<string>} [artists]
+     * @param {Year} [year] Year of release or none
+     * @param {Array<string>} [includedTags]
+     * @param {string} [includedTagsMode]
+     * @param {Array<string>} [excludedTags]
+     * @param {string} [excludedTagsMode]
+     * @param {Array<string>} [status]
+     * @param {Array<string>} [originalLanguage]
+     * @param {Array<string>} [excludedOriginalLanguage]
+     * @param {Array<string>} [availableTranslatedLanguage]
+     * @param {Array<string>} [publicationDemographic]
+     * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
+     * @param {Array<string>} [contentRating]
+     * @param {string} [createdAtSince]
+     * @param {string} [updatedAtSince]
+     * @param {string} [orderTitle]
+     * @param {string} [orderYear]
+     * @param {string} [orderCreatedAt]
+     * @param {string} [orderUpdatedAt]
+     * @param {string} [orderLatestUploadedChapter]
+     * @param {string} [orderFollowedCount]
+     * @param {string} [orderRelevance]
+     * @param {string} [orderRating]
+     * @param {ReferenceExpansionManga} [includes]
+     * @param {string} [hasAvailableChapters]
+     * @param {string} [group]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSearchManga(args: {
+      limit?: number;
+      offset?: number;
+      title?: string;
+      authorOrArtist?: string;
+      authors?: Array<string>;
+      artists?: Array<string>;
+      year?: Year;
+      includedTags?: Array<string>;
+      includedTagsMode?: string;
+      excludedTags?: Array<string>;
+      excludedTagsMode?: string;
+      status?: Array<string>;
+      originalLanguage?: Array<string>;
+      excludedOriginalLanguage?: Array<string>;
+      availableTranslatedLanguage?: Array<string>;
+      publicationDemographic?: Array<string>;
+      ids?: Array<string>;
+      contentRating?: Array<string>;
+      createdAtSince?: string;
+      updatedAtSince?: string;
+      orderTitle?: string;
+      orderYear?: string;
+      orderCreatedAt?: string;
+      orderUpdatedAt?: string;
+      orderLatestUploadedChapter?: string;
+      orderFollowedCount?: string;
+      orderRelevance?: string;
+      orderRating?: string;
+      includes?: ReferenceExpansionManga;
+      hasAvailableChapters?: string;
+      group?: string;
+      options?: AxiosRequestConfig;
+    }): Promise<AxiosResponse<MangaList>> {
+      return MangaApiFp(configuration)
+        .getSearchManga(
+          args.limit,
+          args.offset,
+          args.title,
+          args.authorOrArtist,
+          args.authors,
+          args.artists,
+          args.year,
+          args.includedTags,
+          args.includedTagsMode,
+          args.excludedTags,
+          args.excludedTagsMode,
+          args.status,
+          args.originalLanguage,
+          args.excludedOriginalLanguage,
+          args.availableTranslatedLanguage,
+          args.publicationDemographic,
+          args.ids,
+          args.contentRating,
+          args.createdAtSince,
+          args.updatedAtSince,
+          args.orderTitle,
+          args.orderYear,
+          args.orderCreatedAt,
+          args.orderUpdatedAt,
+          args.orderLatestUploadedChapter,
+          args.orderFollowedCount,
+          args.orderRelevance,
+          args.orderRating,
+          args.includes,
+          args.hasAvailableChapters,
+          args.group,
+          args.options
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create a new Manga.
+     * @summary Create Manga
+     * @param {string} contentType
+     * @param {MangaCreate} [body] The size of the body is limited to 64KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postManga(
+      contentType: string,
+      body?: MangaCreate,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaResponse>> {
+      return MangaApiFp(configuration)
+        .postManga(contentType, body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Follow Manga
+     * @param {string} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postMangaIdFollow(
+      id: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Response>> {
+      return MangaApiFp(configuration)
+        .postMangaIdFollow(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Update Manga reading status
+     * @param {string} contentType
+     * @param {string} id
+     * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postMangaIdStatus(
+      contentType: string,
+      id: string,
+      body?: UpdateMangaStatus,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Response>> {
+      return MangaApiFp(configuration)
+        .postMangaIdStatus(contentType, id, body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create a new Manga relation.
+     * @summary Create Manga relation
+     * @param {string} contentType
+     * @param {string} mangaId
+     * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async postMangaRelation(
+      contentType: string,
+      mangaId: string,
+      body?: MangaRelationCreate,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaRelationResponse>> {
+      return MangaApiFp(configuration)
+        .postMangaRelation(contentType, mangaId, body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Update Manga
+     * @param {string} contentType
+     * @param {string} id Manga ID
+     * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async putMangaId(
+      contentType: string,
+      id: string,
+      body?: MangaIdBody,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<MangaResponse>> {
+      return MangaApiFp(configuration)
+        .putMangaId(contentType, id, body, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
 };
 
 /**
@@ -2018,301 +3224,554 @@ export const MangaApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class MangaApi extends BaseAPI {
-    /**
-     * 
-     * @summary Submit a Manga Draft
-     * @param {string} id 
-     * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async commitMangaDraft(id: string, body?: IdCommitBody, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaResponse>> {
-        return MangaApiFp(this.configuration).commitMangaDraft(id, body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Delete Manga
-     * @param {string} id Manga ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async deleteMangaId(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Response>> {
-        return MangaApiFp(this.configuration).deleteMangaId(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Unfollow Manga
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async deleteMangaIdFollow(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Response>> {
-        return MangaApiFp(this.configuration).deleteMangaIdFollow(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Delete Manga relation
-     * @param {string} mangaId 
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async deleteMangaRelationId(mangaId: string, id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Response>> {
-        return MangaApiFp(this.configuration).deleteMangaRelationId(mangaId, id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get Manga volumes & chapters
-     * @param {string} id Manga ID
-     * @param {Array<string>} [translatedLanguage] 
-     * @param {Array<string>} [groups] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaAggregate(id: string, translatedLanguage?: Array<string>, groups?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<InlineResponse200>> {
-        return MangaApiFp(this.configuration).getMangaAggregate(id, translatedLanguage, groups, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get a list of Manga Drafts
-     * @param {number} [limit] 
-     * @param {number} [offset] 
-     * @param {string} [state] 
-     * @param {string} [orderTitle] 
-     * @param {string} [orderYear] 
-     * @param {string} [orderCreatedAt] 
-     * @param {string} [orderUpdatedAt] 
-     * @param {ReferenceExpansionManga} [includes] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaDrafts(limit?: number, offset?: number, state?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaResponse>> {
-        return MangaApiFp(this.configuration).getMangaDrafts(limit, offset, state, orderTitle, orderYear, orderCreatedAt, orderUpdatedAt, includes, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * Get Manga.
-     * @summary Get Manga
-     * @param {string} id Manga ID
-     * @param {ReferenceExpansionManga} [includes] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaId(id: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaResponse>> {
-        return MangaApiFp(this.configuration).getMangaId(id, includes, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get a specific Manga Draft
-     * @param {string} id 
-     * @param {ReferenceExpansionManga} [includes] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaIdDraft(id: string, includes?: ReferenceExpansionManga, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaResponse>> {
-        return MangaApiFp(this.configuration).getMangaIdDraft(id, includes, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Manga feed
-     * @param {string} id Manga ID
-     * @param {number} [limit] 
-     * @param {number} [offset] 
-     * @param {Array<string>} [translatedLanguage] 
-     * @param {Array<string>} [originalLanguage] 
-     * @param {Array<string>} [excludedOriginalLanguage] 
-     * @param {Array<string>} [contentRating] 
-     * @param {Array<string>} [excludedGroups] 
-     * @param {Array<string>} [excludedUploaders] 
-     * @param {string} [includeFutureUpdates] 
-     * @param {string} [createdAtSince] 
-     * @param {string} [updatedAtSince] 
-     * @param {string} [publishAtSince] 
-     * @param {string} [orderCreatedAt] 
-     * @param {string} [orderUpdatedAt] 
-     * @param {string} [orderPublishAt] 
-     * @param {string} [orderReadableAt] 
-     * @param {string} [orderVolume] 
-     * @param {string} [orderChapter] 
-     * @param {ReferenceExpansionChapter} [includes] 
-     * @param {number} [includeEmptyPages] 
-     * @param {number} [includeFuturePublishAt] 
-     * @param {number} [includeExternalUrl] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaIdFeed(id: string, limit?: number, offset?: number, translatedLanguage?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, contentRating?: Array<string>, excludedGroups?: Array<string>, excludedUploaders?: Array<string>, includeFutureUpdates?: string, createdAtSince?: string, updatedAtSince?: string, publishAtSince?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderPublishAt?: string, orderReadableAt?: string, orderVolume?: string, orderChapter?: string, includes?: ReferenceExpansionChapter, includeEmptyPages?: number, includeFuturePublishAt?: number, includeExternalUrl?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<ChapterList>> {
-        return MangaApiFp(this.configuration).getMangaIdFeed(id, limit, offset, translatedLanguage, originalLanguage, excludedOriginalLanguage, contentRating, excludedGroups, excludedUploaders, includeFutureUpdates, createdAtSince, updatedAtSince, publishAtSince, orderCreatedAt, orderUpdatedAt, orderPublishAt, orderReadableAt, orderVolume, orderChapter, includes, includeEmptyPages, includeFuturePublishAt, includeExternalUrl, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get a Manga reading status
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaIdStatus(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<InlineResponse2009>> {
-        return MangaApiFp(this.configuration).getMangaIdStatus(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get a random Manga
-     * @param {ReferenceExpansionManga} [includes] 
-     * @param {Array<string>} [contentRating] 
-     * @param {Array<string>} [includedTags] 
-     * @param {string} [includedTagsMode] 
-     * @param {Array<string>} [excludedTags] 
-     * @param {string} [excludedTagsMode] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaRandom(includes?: ReferenceExpansionManga, contentRating?: Array<string>, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaResponse>> {
-        return MangaApiFp(this.configuration).getMangaRandom(includes, contentRating, includedTags, includedTagsMode, excludedTags, excludedTagsMode, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Manga relation list
-     * @param {string} mangaId 
-     * @param {ReferenceExpansionMangaRelation} [includes] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaRelation(mangaId: string, includes?: ReferenceExpansionMangaRelation, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaRelationList>> {
-        return MangaApiFp(this.configuration).getMangaRelation(mangaId, includes, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get all Manga reading status for logged User
-     * @param {string} [status] Used to filter the list by given status
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaStatus(status?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<InlineResponse2008>> {
-        return MangaApiFp(this.configuration).getMangaStatus(status, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Tag list
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getMangaTag(options?: AxiosRequestConfig) : Promise<AxiosResponse<TagResponse>> {
-        return MangaApiFp(this.configuration).getMangaTag(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * Search a list of Manga.
-     * @summary Manga list
-     * @param {number} [limit] 
-     * @param {number} [offset] 
-     * @param {string} [title] 
-     * @param {string} [authorOrArtist] 
-     * @param {Array<string>} [authors] 
-     * @param {Array<string>} [artists] 
-     * @param {Year} [year] Year of release or none
-     * @param {Array<string>} [includedTags] 
-     * @param {string} [includedTagsMode] 
-     * @param {Array<string>} [excludedTags] 
-     * @param {string} [excludedTagsMode] 
-     * @param {Array<string>} [status] 
-     * @param {Array<string>} [originalLanguage] 
-     * @param {Array<string>} [excludedOriginalLanguage] 
-     * @param {Array<string>} [availableTranslatedLanguage] 
-     * @param {Array<string>} [publicationDemographic] 
-     * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
-     * @param {Array<string>} [contentRating] 
-     * @param {string} [createdAtSince] 
-     * @param {string} [updatedAtSince] 
-     * @param {string} [orderTitle] 
-     * @param {string} [orderYear] 
-     * @param {string} [orderCreatedAt] 
-     * @param {string} [orderUpdatedAt] 
-     * @param {string} [orderLatestUploadedChapter] 
-     * @param {string} [orderFollowedCount] 
-     * @param {string} [orderRelevance] 
-     * @param {string} [orderRating] 
-     * @param {ReferenceExpansionManga} [includes] 
-     * @param {string} [hasAvailableChapters] 
-     * @param {string} [group] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async getSearchManga(limit?: number, offset?: number, title?: string, authorOrArtist?: string, authors?: Array<string>, artists?: Array<string>, year?: Year, includedTags?: Array<string>, includedTagsMode?: string, excludedTags?: Array<string>, excludedTagsMode?: string, status?: Array<string>, originalLanguage?: Array<string>, excludedOriginalLanguage?: Array<string>, availableTranslatedLanguage?: Array<string>, publicationDemographic?: Array<string>, ids?: Array<string>, contentRating?: Array<string>, createdAtSince?: string, updatedAtSince?: string, orderTitle?: string, orderYear?: string, orderCreatedAt?: string, orderUpdatedAt?: string, orderLatestUploadedChapter?: string, orderFollowedCount?: string, orderRelevance?: string, orderRating?: string, includes?: ReferenceExpansionManga, hasAvailableChapters?: string, group?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaList>> {
-        return MangaApiFp(this.configuration).getSearchManga(limit, offset, title, authorOrArtist, authors, artists, year, includedTags, includedTagsMode, excludedTags, excludedTagsMode, status, originalLanguage, excludedOriginalLanguage, availableTranslatedLanguage, publicationDemographic, ids, contentRating, createdAtSince, updatedAtSince, orderTitle, orderYear, orderCreatedAt, orderUpdatedAt, orderLatestUploadedChapter, orderFollowedCount, orderRelevance, orderRating, includes, hasAvailableChapters, group, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * Create a new Manga.
-     * @summary Create Manga
-     * @param {string} contentType 
-     * @param {MangaCreate} [body] The size of the body is limited to 64KB.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async postManga(contentType: string, body?: MangaCreate, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaResponse>> {
-        return MangaApiFp(this.configuration).postManga(contentType, body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Follow Manga
-     * @param {string} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async postMangaIdFollow(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Response>> {
-        return MangaApiFp(this.configuration).postMangaIdFollow(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Update Manga reading status
-     * @param {string} contentType 
-     * @param {string} id 
-     * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async postMangaIdStatus(contentType: string, id: string, body?: UpdateMangaStatus, options?: AxiosRequestConfig) : Promise<AxiosResponse<Response>> {
-        return MangaApiFp(this.configuration).postMangaIdStatus(contentType, id, body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * Create a new Manga relation.
-     * @summary Create Manga relation
-     * @param {string} contentType 
-     * @param {string} mangaId 
-     * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async postMangaRelation(contentType: string, mangaId: string, body?: MangaRelationCreate, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaRelationResponse>> {
-        return MangaApiFp(this.configuration).postMangaRelation(contentType, mangaId, body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Update Manga
-     * @param {string} contentType 
-     * @param {string} id Manga ID
-     * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof MangaApi
-     */
-    public async putMangaId(contentType: string, id: string, body?: MangaIdBody, options?: AxiosRequestConfig) : Promise<AxiosResponse<MangaResponse>> {
-        return MangaApiFp(this.configuration).putMangaId(contentType, id, body, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   *
+   * @summary Submit a Manga Draft
+   * @param {string} id
+   * @param {IdCommitBody} [body] A Manga Draft that is to be submitted must have at least one cover in the original language, must be in the &quot;draft&quot; state and must be passed the correct version in the request body.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async commitMangaDraft(
+    id: string,
+    body?: IdCommitBody,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaResponse>> {
+    return MangaApiFp(this.configuration)
+      .commitMangaDraft(id, body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Delete Manga
+   * @param {string} id Manga ID
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async deleteMangaId(
+    id: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Response>> {
+    return MangaApiFp(this.configuration)
+      .deleteMangaId(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Unfollow Manga
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async deleteMangaIdFollow(
+    id: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Response>> {
+    return MangaApiFp(this.configuration)
+      .deleteMangaIdFollow(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Delete Manga relation
+   * @param {string} mangaId
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async deleteMangaRelationId(
+    mangaId: string,
+    id: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Response>> {
+    return MangaApiFp(this.configuration)
+      .deleteMangaRelationId(mangaId, id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Get Manga volumes & chapters
+   * @param {string} id Manga ID
+   * @param {Array<string>} [translatedLanguage]
+   * @param {Array<string>} [groups]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaAggregate(
+    id: string,
+    translatedLanguage?: Array<string>,
+    groups?: Array<string>,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<InlineResponse200>> {
+    return MangaApiFp(this.configuration)
+      .getMangaAggregate(id, translatedLanguage, groups, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Get a list of Manga Drafts
+   * @param {number} [limit]
+   * @param {number} [offset]
+   * @param {string} [state]
+   * @param {string} [orderTitle]
+   * @param {string} [orderYear]
+   * @param {string} [orderCreatedAt]
+   * @param {string} [orderUpdatedAt]
+   * @param {ReferenceExpansionManga} [includes]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaDrafts(
+    limit?: number,
+    offset?: number,
+    state?: string,
+    orderTitle?: string,
+    orderYear?: string,
+    orderCreatedAt?: string,
+    orderUpdatedAt?: string,
+    includes?: ReferenceExpansionManga,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaResponse>> {
+    return MangaApiFp(this.configuration)
+      .getMangaDrafts(
+        limit,
+        offset,
+        state,
+        orderTitle,
+        orderYear,
+        orderCreatedAt,
+        orderUpdatedAt,
+        includes,
+        options
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Get Manga.
+   * @summary Get Manga
+   * @param {string} id Manga ID
+   * @param {ReferenceExpansionManga} [includes]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaId(
+    id: string,
+    includes?: ReferenceExpansionManga,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaResponse>> {
+    return MangaApiFp(this.configuration)
+      .getMangaId(id, includes, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Get a specific Manga Draft
+   * @param {string} id
+   * @param {ReferenceExpansionManga} [includes]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaIdDraft(
+    id: string,
+    includes?: ReferenceExpansionManga,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaResponse>> {
+    return MangaApiFp(this.configuration)
+      .getMangaIdDraft(id, includes, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Manga feed
+   * @param {string} id Manga ID
+   * @param {number} [limit]
+   * @param {number} [offset]
+   * @param {Array<string>} [translatedLanguage]
+   * @param {Array<string>} [originalLanguage]
+   * @param {Array<string>} [excludedOriginalLanguage]
+   * @param {Array<string>} [contentRating]
+   * @param {Array<string>} [excludedGroups]
+   * @param {Array<string>} [excludedUploaders]
+   * @param {string} [includeFutureUpdates]
+   * @param {string} [createdAtSince]
+   * @param {string} [updatedAtSince]
+   * @param {string} [publishAtSince]
+   * @param {string} [orderCreatedAt]
+   * @param {string} [orderUpdatedAt]
+   * @param {string} [orderPublishAt]
+   * @param {string} [orderReadableAt]
+   * @param {string} [orderVolume]
+   * @param {string} [orderChapter]
+   * @param {ReferenceExpansionChapter} [includes]
+   * @param {number} [includeEmptyPages]
+   * @param {number} [includeFuturePublishAt]
+   * @param {number} [includeExternalUrl]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaIdFeed(
+    id: string,
+    limit?: number,
+    offset?: number,
+    translatedLanguage?: Array<string>,
+    originalLanguage?: Array<string>,
+    excludedOriginalLanguage?: Array<string>,
+    contentRating?: Array<string>,
+    excludedGroups?: Array<string>,
+    excludedUploaders?: Array<string>,
+    includeFutureUpdates?: string,
+    createdAtSince?: string,
+    updatedAtSince?: string,
+    publishAtSince?: string,
+    orderCreatedAt?: string,
+    orderUpdatedAt?: string,
+    orderPublishAt?: string,
+    orderReadableAt?: string,
+    orderVolume?: string,
+    orderChapter?: string,
+    includes?: ReferenceExpansionChapter,
+    includeEmptyPages?: number,
+    includeFuturePublishAt?: number,
+    includeExternalUrl?: number,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<ChapterList>> {
+    return MangaApiFp(this.configuration)
+      .getMangaIdFeed(
+        id,
+        limit,
+        offset,
+        translatedLanguage,
+        originalLanguage,
+        excludedOriginalLanguage,
+        contentRating,
+        excludedGroups,
+        excludedUploaders,
+        includeFutureUpdates,
+        createdAtSince,
+        updatedAtSince,
+        publishAtSince,
+        orderCreatedAt,
+        orderUpdatedAt,
+        orderPublishAt,
+        orderReadableAt,
+        orderVolume,
+        orderChapter,
+        includes,
+        includeEmptyPages,
+        includeFuturePublishAt,
+        includeExternalUrl,
+        options
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Get a Manga reading status
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaIdStatus(
+    id: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<InlineResponse2009>> {
+    return MangaApiFp(this.configuration)
+      .getMangaIdStatus(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Get a random Manga
+   * @param {ReferenceExpansionManga} [includes]
+   * @param {Array<string>} [contentRating]
+   * @param {Array<string>} [includedTags]
+   * @param {string} [includedTagsMode]
+   * @param {Array<string>} [excludedTags]
+   * @param {string} [excludedTagsMode]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaRandom(
+    includes?: ReferenceExpansionManga,
+    contentRating?: Array<string>,
+    includedTags?: Array<string>,
+    includedTagsMode?: string,
+    excludedTags?: Array<string>,
+    excludedTagsMode?: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaResponse>> {
+    return MangaApiFp(this.configuration)
+      .getMangaRandom(
+        includes,
+        contentRating,
+        includedTags,
+        includedTagsMode,
+        excludedTags,
+        excludedTagsMode,
+        options
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Manga relation list
+   * @param {string} mangaId
+   * @param {ReferenceExpansionMangaRelation} [includes]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaRelation(
+    mangaId: string,
+    includes?: ReferenceExpansionMangaRelation,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaRelationList>> {
+    return MangaApiFp(this.configuration)
+      .getMangaRelation(mangaId, includes, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Get all Manga reading status for logged User
+   * @param {string} [status] Used to filter the list by given status
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaStatus(
+    status?: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<InlineResponse2008>> {
+    return MangaApiFp(this.configuration)
+      .getMangaStatus(status, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Tag list
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getMangaTag(
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<TagResponse>> {
+    return MangaApiFp(this.configuration)
+      .getMangaTag(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Search a list of Manga.
+   * @summary Manga list
+   * @param {number} [limit]
+   * @param {number} [offset]
+   * @param {string} [title]
+   * @param {string} [authorOrArtist]
+   * @param {Array<string>} [authors]
+   * @param {Array<string>} [artists]
+   * @param {Year} [year] Year of release or none
+   * @param {Array<string>} [includedTags]
+   * @param {string} [includedTagsMode]
+   * @param {Array<string>} [excludedTags]
+   * @param {string} [excludedTagsMode]
+   * @param {Array<string>} [status]
+   * @param {Array<string>} [originalLanguage]
+   * @param {Array<string>} [excludedOriginalLanguage]
+   * @param {Array<string>} [availableTranslatedLanguage]
+   * @param {Array<string>} [publicationDemographic]
+   * @param {Array<string>} [ids] Manga ids (limited to 100 per request)
+   * @param {Array<string>} [contentRating]
+   * @param {string} [createdAtSince]
+   * @param {string} [updatedAtSince]
+   * @param {string} [orderTitle]
+   * @param {string} [orderYear]
+   * @param {string} [orderCreatedAt]
+   * @param {string} [orderUpdatedAt]
+   * @param {string} [orderLatestUploadedChapter]
+   * @param {string} [orderFollowedCount]
+   * @param {string} [orderRelevance]
+   * @param {string} [orderRating]
+   * @param {ReferenceExpansionManga} [includes]
+   * @param {string} [hasAvailableChapters]
+   * @param {string} [group]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async getSearchManga(
+    limit?: number,
+    offset?: number,
+    title?: string,
+    authorOrArtist?: string,
+    authors?: Array<string>,
+    artists?: Array<string>,
+    year?: Year,
+    includedTags?: Array<string>,
+    includedTagsMode?: string,
+    excludedTags?: Array<string>,
+    excludedTagsMode?: string,
+    status?: Array<string>,
+    originalLanguage?: Array<string>,
+    excludedOriginalLanguage?: Array<string>,
+    availableTranslatedLanguage?: Array<string>,
+    publicationDemographic?: Array<string>,
+    ids?: Array<string>,
+    contentRating?: Array<string>,
+    createdAtSince?: string,
+    updatedAtSince?: string,
+    orderTitle?: string,
+    orderYear?: string,
+    orderCreatedAt?: string,
+    orderUpdatedAt?: string,
+    orderLatestUploadedChapter?: string,
+    orderFollowedCount?: string,
+    orderRelevance?: string,
+    orderRating?: string,
+    includes?: ReferenceExpansionManga,
+    hasAvailableChapters?: string,
+    group?: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaList>> {
+    return MangaApiFp(this.configuration)
+      .getSearchManga(
+        limit,
+        offset,
+        title,
+        authorOrArtist,
+        authors,
+        artists,
+        year,
+        includedTags,
+        includedTagsMode,
+        excludedTags,
+        excludedTagsMode,
+        status,
+        originalLanguage,
+        excludedOriginalLanguage,
+        availableTranslatedLanguage,
+        publicationDemographic,
+        ids,
+        contentRating,
+        createdAtSince,
+        updatedAtSince,
+        orderTitle,
+        orderYear,
+        orderCreatedAt,
+        orderUpdatedAt,
+        orderLatestUploadedChapter,
+        orderFollowedCount,
+        orderRelevance,
+        orderRating,
+        includes,
+        hasAvailableChapters,
+        group,
+        options
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Create a new Manga.
+   * @summary Create Manga
+   * @param {string} contentType
+   * @param {MangaCreate} [body] The size of the body is limited to 64KB.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async postManga(
+    contentType: string,
+    body?: MangaCreate,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaResponse>> {
+    return MangaApiFp(this.configuration)
+      .postManga(contentType, body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Follow Manga
+   * @param {string} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async postMangaIdFollow(
+    id: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Response>> {
+    return MangaApiFp(this.configuration)
+      .postMangaIdFollow(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Update Manga reading status
+   * @param {string} contentType
+   * @param {string} id
+   * @param {UpdateMangaStatus} [body] Using a &#x60;null&#x60; value in &#x60;status&#x60; field will remove the Manga reading status. The size of the body is limited to 2KB.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async postMangaIdStatus(
+    contentType: string,
+    id: string,
+    body?: UpdateMangaStatus,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Response>> {
+    return MangaApiFp(this.configuration)
+      .postMangaIdStatus(contentType, id, body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   * Create a new Manga relation.
+   * @summary Create Manga relation
+   * @param {string} contentType
+   * @param {string} mangaId
+   * @param {MangaRelationCreate} [body] The size of the body is limited to 8KB.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async postMangaRelation(
+    contentType: string,
+    mangaId: string,
+    body?: MangaRelationCreate,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaRelationResponse>> {
+    return MangaApiFp(this.configuration)
+      .postMangaRelation(contentType, mangaId, body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @summary Update Manga
+   * @param {string} contentType
+   * @param {string} id Manga ID
+   * @param {MangaIdBody} [body] The size of the body is limited to 64KB.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof MangaApi
+   */
+  public async putMangaId(
+    contentType: string,
+    id: string,
+    body?: MangaIdBody,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<MangaResponse>> {
+    return MangaApiFp(this.configuration)
+      .putMangaId(contentType, id, body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }

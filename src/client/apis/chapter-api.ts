@@ -193,6 +193,7 @@ export const ChapterApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+      const query = new URLSearchParams(localVarUrlObj.search);
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit;
@@ -244,7 +245,9 @@ export const ChapterApiAxiosParamCreator = function (
       }
 
       if (contentRating) {
-        localVarQueryParameter["contentRating[]"] = contentRating;
+        for (const obj of contentRating) {
+          query.append("contentRating[]", obj);
+        }
       }
 
       if (excludedGroups) {
@@ -309,10 +312,11 @@ export const ChapterApiAxiosParamCreator = function (
       }
 
       if (includes) {
-        localVarQueryParameter["includes"] = includes;
+        for (const obj of includes) {
+          query.append("includes[]", obj);
+        }
       }
 
-      const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
         query.set(key, localVarQueryParameter[key]);
       }
@@ -774,40 +778,38 @@ export const ChapterApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getChapter(
-      args : {
-        limit?: number,
-        offset?: number,
-        ids?: Array<string>,
-        title?: string,
-        groups?: Array<string>,
-        uploader?: Uploader,
-        manga?: string,
-        volume?: Volume,
-        chapter?: Chapter,
-        translatedLanguage?: Array<string>,
-        originalLanguage?: Array<string>,
-        excludedOriginalLanguage?: Array<string>,
-        contentRating?: Array<string>,
-        excludedGroups?: Array<string>,
-        excludedUploaders?: Array<string>,
-        includeFutureUpdates?: string,
-        includeEmptyPages?: number,
-        includeFuturePublishAt?: number,
-        includeExternalUrl?: number,
-        createdAtSince?: string,
-        updatedAtSince?: string,
-        publishAtSince?: string,
-        orderCreatedAt?: string,
-        orderUpdatedAt?: string,
-        orderPublishAt?: string,
-        orderReadableAt?: string,
-        orderVolume?: string,
-        orderChapter?: string,
-        includes?: Array<string>,
-        options?: AxiosRequestConfig,
-      }
-    ): Promise<AxiosResponse<ChapterList>> {
+    async getChapter(args: {
+      limit?: number;
+      offset?: number;
+      ids?: Array<string>;
+      title?: string;
+      groups?: Array<string>;
+      uploader?: Uploader;
+      manga?: string;
+      volume?: Volume;
+      chapter?: Chapter;
+      translatedLanguage?: Array<string>;
+      originalLanguage?: Array<string>;
+      excludedOriginalLanguage?: Array<string>;
+      contentRating?: Array<string>;
+      excludedGroups?: Array<string>;
+      excludedUploaders?: Array<string>;
+      includeFutureUpdates?: string;
+      includeEmptyPages?: number;
+      includeFuturePublishAt?: number;
+      includeExternalUrl?: number;
+      createdAtSince?: string;
+      updatedAtSince?: string;
+      publishAtSince?: string;
+      orderCreatedAt?: string;
+      orderUpdatedAt?: string;
+      orderPublishAt?: string;
+      orderReadableAt?: string;
+      orderVolume?: string;
+      orderChapter?: string;
+      includes?: Array<string>;
+      options?: AxiosRequestConfig;
+    }): Promise<AxiosResponse<ChapterList>> {
       return ChapterApiFp(configuration)
         .getChapter(
           args.limit,
