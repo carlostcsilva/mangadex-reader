@@ -19,9 +19,9 @@ const LatestUpdates: React.FC = () => {
   const [newChaptersList, setNewChaptersList] =
     useState<AxiosResponse<MangaList>>();
   const [newMangaList, setNewMangaList] = useState<AxiosResponse<MangaList>>();
-  const [formattedMangaList, setFormattedMangaList] = useState<
-    MangaDisplay[]
-  >([]);
+  const [formattedMangaList, setFormattedMangaList] = useState<MangaDisplay[]>(
+    []
+  );
   const [numberOfCardsToDisplay, setNumberOfCardsToDisplay] = useState(3);
 
   const getLatestChapters = () => {
@@ -82,15 +82,18 @@ const LatestUpdates: React.FC = () => {
       const title =
         item.attributes.title["en"] ||
         item.attributes.title[item.attributes.originalLanguage];
+      const description =
+        item.attributes.description["en"] ||
+        item.attributes.description[item.attributes.originalLanguage];
 
       if (!formattedMangaList.some((manga) => manga.id === item.id)) {
-        updateList.push({ ...item, imageSource, title });
+        updateList.push({ ...item, imageSource, title, description });
       }
     });
 
     const howManyNewChapters = updateList.length - formattedMangaList.length;
     const howFarFromOffset = 50 - howManyNewChapters;
-    setCurrentOffset(currentOffset + howFarFromOffset)
+    setCurrentOffset(currentOffset + howFarFromOffset);
     setFormattedMangaList(updateList);
   }, [newMangaList]);
 

@@ -20,7 +20,7 @@ class MangaCover extends PureComponent<MangaCoverProps> {
     return (
       <View style={[styles.imageContainer, { width, height }]}>
         <FastImage
-          style={[{ width, height }]}
+          style={[styles.image, { width, height }]}
           source={{
             uri: `${COVER_URL}/${item.id}/${item.imageSource}`,
             priority: FastImage.priority.normal,

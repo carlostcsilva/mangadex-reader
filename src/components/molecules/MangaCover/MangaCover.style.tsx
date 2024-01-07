@@ -5,4 +5,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 8,
     marginBottom: 50,
   },
+  image: {
+    borderRadius: 4,
+  }
 });

@@ -17,9 +17,13 @@ const MangaHeader: React.FC<MangaHeaderProps> = ({ item, height }) => {
    */
   const width = height / (16 / 9);
   return (
-    <View style={{ height }}>
+    <View style={[styles.container, { height }]}>
       <MangaCover item={item} width={width} height={height} hideTitle={true} />
-      <MangaInfo title={item.title} description={""} containerHeight={height} />
+      <MangaInfo
+        title={item.title}
+        description={item.description}
+        containerHeight={height}
+      />
     </View>
   );
 };

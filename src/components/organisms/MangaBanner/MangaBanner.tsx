@@ -10,8 +10,8 @@ interface MangaBannerProps {
 
 const MangaBanner: React.FC<MangaBannerProps> = ({ item }) => {
   return (
-    <View style={styles.container}>
-      <MangaHeader item={item} height={300} />
+    <View>
+      <MangaHeader item={item} height={200} />
     </View>
   );
 };
