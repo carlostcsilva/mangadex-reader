@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import LatestUpdates from "../templates/LatestUpdates";
-import { View } from "react-native";
+import LatestUpdates from "../templates/LatestUpdates/LatestUpdates";
+import MangaDetails from "../templates/MangaDetails/MangaDetails";
 
 const RootNavigator: React.FC = () => {
   const Tab = createBottomTabNavigator();
@@ -18,11 +18,12 @@ const RootNavigator: React.FC = () => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
-        name="Manga"
-        component={() => <View style={{ flex: 1, backgroundColor: "red" }} />}
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
       />
+      <Stack.Screen name="Manga" component={MangaDetails} />
     </Stack.Navigator>
   );
 };

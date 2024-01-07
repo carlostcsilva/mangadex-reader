@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import MangaScroller from "../organisms/MangaScroller/MangaScroller";
+import MangaScroller from "../../organisms/MangaScroller/MangaScroller";
 import { styles } from "./LatestUpdates.style";
 import { AxiosResponse } from "axios";
-import { MangaDisplay } from "../types/FormattedMangaType";
-import { MangaApiFactory } from "../../client/apis/manga-api";
-import { ChapterApiFactory } from "../../client/apis/chapter-api";
-import { MangaList } from "../../client/models/manga-list";
-import { Relationship } from "../../client/models/relationship";
-import { Manga } from "../../client/models/manga";
+import { MangaDisplay } from "../../types/FormattedMangaType";
+import { MangaApiFactory } from "../../../client/apis/manga-api";
+import { ChapterApiFactory } from "../../../client/apis/chapter-api";
+import { MangaList } from "../../../client/models/manga-list";
+import { Relationship } from "../../../client/models/relationship";
+import { Manga } from "../../../client/models/manga";
 
 const LatestUpdates: React.FC = () => {
   const chapterFactory = ChapterApiFactory();

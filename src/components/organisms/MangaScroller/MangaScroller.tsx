@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions, FlatList, TouchableOpacity } from "react-native";
 import { styles } from "./MangaScroller.style";
 import { MangaDisplay } from "../../types/FormattedMangaType";
-import MangaCover from "../../molecules/manga-cover/MangaCover";
+import MangaCover from "../../molecules/MangaCover/MangaCover";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootNavigationParamList } from "../../navigation/NavigationTypes";
@@ -30,7 +30,6 @@ const MangaScroller: React.FC<MangaScrollerProps> = ({
     useNavigation<StackNavigationProp<RootNavigationParamList>>();
 
   const openManga = (item: MangaDisplay) => {
-    console.log(item);
     navigation.navigate("Manga", { manga: item });
   };
 
