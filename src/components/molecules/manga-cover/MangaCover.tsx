@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import { View } from "react-native";
 import { styles } from "./MangaCover.style";
 import FastImage from "react-native-fast-image";
@@ -13,21 +13,24 @@ interface MangaCoverProps {
   numberOfCardsToDisplay?: number;
 }
 
-const MangaCover: React.FC<MangaCoverProps> = ({ item, width, height }) => {
+class MangaCover extends PureComponent<MangaCoverProps> {
+  render() {
+    const { item, width, height } = this.props;
 
-  return (
-    <View style={[styles.imageContainer, { width, height }]}>
-      <FastImage
-        style={[{ width, height }]}
-        source={{
-          uri: `${COVER_URL}/${item.id}/${item.imageSource}`,
-          priority: FastImage.priority.normal,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-      <Title text={item.title} />
-    </View>
-  );
-};
+    return (
+      <View style={[styles.imageContainer, { width, height }]}>
+        <FastImage
+          style={[{ width, height }]}
+          source={{
+            uri: `${COVER_URL}/${item.id}/${item.imageSource}`,
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        <Title text={item.title} />
+      </View>
+    );
+  }
+}
 
 export default MangaCover;
