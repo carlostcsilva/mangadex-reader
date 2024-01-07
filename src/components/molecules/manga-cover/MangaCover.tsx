@@ -3,19 +3,19 @@ import { View } from "react-native";
 import { styles } from "./MangaCover.style";
 import FastImage from "react-native-fast-image";
 import Title from "../../atoms/Title/Title";
-import { MangaListDisplay } from "../../types/FormattedMangaType";
+import { MangaDisplay } from "../../types/FormattedMangaType";
 import { COVER_URL } from "../../constants/urls";
 
 interface MangaCoverProps {
-  item: MangaListDisplay;
+  item: MangaDisplay;
   width: number;
-  height: number
-  numberOfCardsToDisplay?: number;
+  height: number;
+  hideTitle?: boolean;
 }
 
 class MangaCover extends PureComponent<MangaCoverProps> {
   render() {
-    const { item, width, height } = this.props;
+    const { item, width, height, hideTitle } = this.props;
 
     return (
       <View style={[styles.imageContainer, { width, height }]}>
@@ -27,7 +27,7 @@ class MangaCover extends PureComponent<MangaCoverProps> {
           }}
           resizeMode={FastImage.resizeMode.cover}
         />
-        <Title text={item.title} />
+        {!hideTitle && <Title text={item.title} />}
       </View>
     );
   }

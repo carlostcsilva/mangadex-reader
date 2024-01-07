@@ -1,6 +1,6 @@
 import { Manga } from "../../client";
 
-export interface MangaListDisplay extends Manga {
+export interface MangaDisplay extends Manga {
     imageSource: string;
     title: string;
 }

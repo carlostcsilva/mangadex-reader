@@ -3,7 +3,7 @@ import { View } from "react-native";
 import MangaScroller from "../organisms/MangaScroller/MangaScroller";
 import { styles } from "./LatestUpdates.style";
 import { AxiosResponse } from "axios";
-import { MangaListDisplay } from "../types/FormattedMangaType";
+import { MangaDisplay } from "../types/FormattedMangaType";
 import { MangaApiFactory } from "../../client/apis/manga-api";
 import { ChapterApiFactory } from "../../client/apis/chapter-api";
 import { MangaList } from "../../client/models/manga-list";
@@ -20,7 +20,7 @@ const LatestUpdates: React.FC = () => {
     useState<AxiosResponse<MangaList>>();
   const [newMangaList, setNewMangaList] = useState<AxiosResponse<MangaList>>();
   const [formattedMangaList, setFormattedMangaList] = useState<
-    MangaListDisplay[]
+    MangaDisplay[]
   >([]);
   const [numberOfCardsToDisplay, setNumberOfCardsToDisplay] = useState(3);
 
@@ -28,7 +28,6 @@ const LatestUpdates: React.FC = () => {
     if (currentlyUpdating) return;
     setCurrentlyUpdating(true);
     const { getChapter } = chapterFactory;
-    console.log(currentOffset);
 
     const chapterParams = {
       limit: 50,
